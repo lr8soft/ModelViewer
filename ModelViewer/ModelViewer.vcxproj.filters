@@ -8,5 +8,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModelViewer.cpp" />
+    <ClCompile Include="AppFrame.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AppFrame.h" />
   </ItemGroup>
 </Project>
