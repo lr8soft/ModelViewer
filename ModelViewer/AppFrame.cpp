@@ -1,6 +1,5 @@
 #include <iostream>
 #include <gl3w/gl3w.h>
-
 #include "AppFrame.h"
 
 AppFrame* AppFrame::pInstance = nullptr;

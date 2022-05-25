@@ -5,12 +5,31 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{2954f1af-c5d5-4bee-8f5f-d03e28b4227d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModelViewer.cpp" />
     <ClCompile Include="AppFrame.cpp" />
+    <ClCompile Include="Utils\ShaderReader.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Timer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppFrame.h" />
+    <ClInclude Include="AppEngine.h" />
+    <ClInclude Include="Utils\ShaderReader.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Timer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\LogUtil.hpp">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
