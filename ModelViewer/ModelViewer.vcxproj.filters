@@ -8,6 +8,12 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{2954f1af-c5d5-4bee-8f5f-d03e28b4227d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Libs">
+      <UniqueIdentifier>{ffd942f7-8d05-4304-8188-4f599f4dd926}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libs\imgui">
+      <UniqueIdentifier>{01cf7ee8-079a-4051-b9e6-31ac63642cea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModelViewer.cpp" />
@@ -18,10 +24,30 @@
     <ClCompile Include="Utils\Timer.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="EObject.cpp" />
+    <ClCompile Include="EngineManager.cpp" />
+    <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="Libs\imgui\imgui.cpp">
+      <Filter>Libs\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\imgui\imgui_draw.cpp">
+      <Filter>Libs\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\imgui\imgui_impl_glfw.cpp">
+      <Filter>Libs\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\imgui\imgui_impl_opengl3.cpp">
+      <Filter>Libs\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\imgui\imgui_tables.cpp">
+      <Filter>Libs\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\imgui\imgui_widgets.cpp">
+      <Filter>Libs\imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppFrame.h" />
-    <ClInclude Include="AppEngine.h" />
     <ClInclude Include="Utils\ShaderReader.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -30,6 +56,39 @@
     </ClInclude>
     <ClInclude Include="Utils\LogUtil.hpp">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="EObject.h" />
+    <ClInclude Include="Utils\MathUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineManager.h" />
+    <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="Libs\imgui\imconfig.h">
+      <Filter>Libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\imgui.h">
+      <Filter>Libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\imgui_impl_glfw.h">
+      <Filter>Libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\imgui_impl_opengl3.h">
+      <Filter>Libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\imgui_impl_opengl3_loader.h">
+      <Filter>Libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\imgui_internal.h">
+      <Filter>Libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\imstb_rectpack.h">
+      <Filter>Libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\imstb_textedit.h">
+      <Filter>Libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\imstb_truetype.h">
+      <Filter>Libs\imgui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
