@@ -5,16 +5,10 @@ VisualStudioVersion = 15.0.28307.1433
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModelViewer", "ModelViewer\ModelViewer.vcxproj", "{D23DBAEA-A7D8-4A30-9F5F-F5F38A592BAB}"
 	ProjectSection(ProjectDependencies) = postProject
-		{BE9CA846-C243-3B32-99DC-5B4378E4A561} = {BE9CA846-C243-3B32-99DC-5B4378E4A561}
-		{A1A99D5F-3138-35D4-8ADF-5BDAB35F3F05} = {A1A99D5F-3138-35D4-8ADF-5BDAB35F3F05}
 		{3CBB0FC3-6388-47A2-8794-77DCAF3F607C} = {3CBB0FC3-6388-47A2-8794-77DCAF3F607C}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glfw", "ModelViewer\Libs\glfw\src\glfw.vcxproj", "{A1A99D5F-3138-35D4-8ADF-5BDAB35F3F05}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gl3w", "ModelViewer\Libs\gl3w\gl3w.vcxproj", "{3CBB0FC3-6388-47A2-8794-77DCAF3F607C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "assimp", "ModelViewer\Libs\assimp\code\assimp.vcxproj", "{BE9CA846-C243-3B32-99DC-5B4378E4A561}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,12 +24,6 @@ Global
 		{D23DBAEA-A7D8-4A30-9F5F-F5F38A592BAB}.Release|x64.ActiveCfg = Release|x64
 		{D23DBAEA-A7D8-4A30-9F5F-F5F38A592BAB}.Release|x64.Build.0 = Release|x64
 		{D23DBAEA-A7D8-4A30-9F5F-F5F38A592BAB}.Release|x86.ActiveCfg = Release|x64
-		{A1A99D5F-3138-35D4-8ADF-5BDAB35F3F05}.Debug|x64.ActiveCfg = Debug|x64
-		{A1A99D5F-3138-35D4-8ADF-5BDAB35F3F05}.Debug|x64.Build.0 = Debug|x64
-		{A1A99D5F-3138-35D4-8ADF-5BDAB35F3F05}.Debug|x86.ActiveCfg = Debug|x64
-		{A1A99D5F-3138-35D4-8ADF-5BDAB35F3F05}.Release|x64.ActiveCfg = Release|x64
-		{A1A99D5F-3138-35D4-8ADF-5BDAB35F3F05}.Release|x64.Build.0 = Release|x64
-		{A1A99D5F-3138-35D4-8ADF-5BDAB35F3F05}.Release|x86.ActiveCfg = Release|x64
 		{3CBB0FC3-6388-47A2-8794-77DCAF3F607C}.Debug|x64.ActiveCfg = Debug|x64
 		{3CBB0FC3-6388-47A2-8794-77DCAF3F607C}.Debug|x64.Build.0 = Debug|x64
 		{3CBB0FC3-6388-47A2-8794-77DCAF3F607C}.Debug|x86.ActiveCfg = Debug|Win32
@@ -44,12 +32,6 @@ Global
 		{3CBB0FC3-6388-47A2-8794-77DCAF3F607C}.Release|x64.Build.0 = Release|x64
 		{3CBB0FC3-6388-47A2-8794-77DCAF3F607C}.Release|x86.ActiveCfg = Release|Win32
 		{3CBB0FC3-6388-47A2-8794-77DCAF3F607C}.Release|x86.Build.0 = Release|Win32
-		{BE9CA846-C243-3B32-99DC-5B4378E4A561}.Debug|x64.ActiveCfg = Debug|x64
-		{BE9CA846-C243-3B32-99DC-5B4378E4A561}.Debug|x64.Build.0 = Debug|x64
-		{BE9CA846-C243-3B32-99DC-5B4378E4A561}.Debug|x86.ActiveCfg = Debug|x64
-		{BE9CA846-C243-3B32-99DC-5B4378E4A561}.Release|x64.ActiveCfg = Release|x64
-		{BE9CA846-C243-3B32-99DC-5B4378E4A561}.Release|x64.Build.0 = Release|x64
-		{BE9CA846-C243-3B32-99DC-5B4378E4A561}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
