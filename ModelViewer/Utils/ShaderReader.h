@@ -1,8 +1,8 @@
 #pragma once
 #ifndef _SHADER_READER__
 #define _SHADER_READER__
-#include<GL3/gl3w.h>
-#include<iostream>
+#include <gl3w/gl3w.h>
+#include <iostream>
 using std::string;
 namespace GLUtils {
 	class ShaderReader {

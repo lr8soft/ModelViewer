@@ -79,10 +79,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)..\..\..\Libs\$(Configuration)\</OutDir>
     <TargetName>gl3w</TargetName>
+    <IncludePath>$(ProjectDir)..\gl\;$(ProjectDir)..\KHR\;$(ProjectDir)include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)..\..\..\Libs\$(Configuration)\</OutDir>
     <TargetName>gl3w</TargetName>
+    <IncludePath>$(ProjectDir)..\gl\;$(ProjectDir)..\KHR\;$(ProjectDir)include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
