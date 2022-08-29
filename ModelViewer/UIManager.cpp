@@ -1,10 +1,19 @@
-#include "UIManager.h"
-
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_opengl3_loader.h>
 
+
+#include "UIManager.h"
+#include "EngineManager.h"
+
+#include "Utils/LogUtil.hpp"
+
+auto clickEvent = std::make_shared<Event>("ClickEvent", "hello world");
+void testTrigger(Event& event)
+{
+    LogUtil::printError(event.getEventName() + " is click.");
+}
 
 void UIManager::OnRenderInit(GLFWwindow* pScreen)
 {
@@ -12,6 +21,8 @@ void UIManager::OnRenderInit(GLFWwindow* pScreen)
     ImGui::StyleColorsDark();       // Setup Dear ImGui style
     ImGui_ImplGlfw_InitForOpenGL(pScreen, true);     // Setup Platform/Renderer backends
     ImGui_ImplOpenGL3_Init("#version 450");
+
+    EngineManager::getInstance()->initNewTrigger(clickEvent, testTrigger);
 }
 
 void UIManager::OnRenderUI()
@@ -30,8 +41,12 @@ void UIManager::OnRenderUI()
 
         ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
 
-        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+        if (ImGui::Button("Button"))
+        {
+            EngineManager::getInstance()->tryTriggerEvent(clickEvent);
             counter++;
+        }
+
         ImGui::SameLine();
         ImGui::Text("counter = %d", counter);
 

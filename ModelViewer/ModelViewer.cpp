@@ -2,7 +2,6 @@
 
 int main()
 {
-
     AppFrame *inst = AppFrame::getInstance();
     inst->FrameInit();
     inst->FrameWork();

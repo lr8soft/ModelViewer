@@ -17,14 +17,14 @@ void EngineManager::onLogicalInit()
     }
 }
 
-void EngineManager::initNewEvent(std::string eventName, std::shared_ptr<Event> eventObject)
+void EngineManager::initNewTrigger(std::shared_ptr<Event> event, EventTrigger trigger)
 {
-    eventBus.insert(std::make_pair(eventName, eventObject));
+    eventBus.insert(std::make_pair(event->getEventName(), trigger));
 }
 
-void EngineManager::tryTriggerEvent(std::string eventName)
+void EngineManager::tryTriggerEvent(std::shared_ptr<Event> event)
 {
-    pendingTriggerList.push(eventName);
+    pendingTriggerList.push(event);
 }
 
 EngineManager * EngineManager::getInstance()
@@ -40,16 +40,21 @@ void EngineManager::onLogicalWork()
     {
         while (!pendingTriggerList.empty())
         {
-            std::string eventName = pendingTriggerList.front();
-
-            LogUtil::printInfo("Try trigger event" + eventName);
-            auto eventIter = eventBus.find(eventName);
+            auto event = pendingTriggerList.front();
+            // find all triggers
+            auto eventIter = eventBus.find(event->getEventName());
             while (eventIter != eventBus.end())
             {
-                eventIter->second->onEventTrigger();
+                // check event is cancel
+                if (event->isCancel())
+                {
+                    break;
+                }
+                // trigger work
+                eventIter->second(*event);
                 eventIter++;
             }
-
+            // clean Event object
             pendingTriggerList.pop();
         }
     }

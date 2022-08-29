@@ -4,10 +4,20 @@
 #include <string>
 
 class Event {
+protected:
+    bool isEventCancel = false;
+    std::string eventName;
+    const void* const eventData;
 public:
-    virtual bool isCancellable() = 0;
-    virtual std::string getEventName() = 0;
-    virtual void onEventTrigger() = 0;
+    Event(const std::string name, const void* const data): eventName(name), eventData(data) {}
+
+    bool isCancel() { return isEventCancel; }
+    void setIsCancel(bool value) { isEventCancel = value; }
+
+    std::string getEventName() { return eventName; }
+    const void* const getEventData() { return eventData; }
 };
+
+typedef void (*EventTrigger)(Event& event);
 
 #endif

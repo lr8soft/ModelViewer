@@ -18,21 +18,21 @@ private:
     static EngineManager* pInstance;
 
     std::thread* logicalThread = nullptr;
-    std::multimap<std::string, std::shared_ptr<Event>> eventBus;
+    // event name->triggers
+    std::multimap<std::string, EventTrigger> eventBus;
 
-    SharedQueue<std::string> pendingTriggerList;
+    SharedQueue<std::shared_ptr<Event>> pendingTriggerList;
 
     EngineManager();
 
     void onLogicalWork();
 public:
-
     static EngineManager* getInstance();
 
     void onLogicalInit();
 
-    void initNewEvent(std::string eventName, std::shared_ptr<Event> eventObject);
-    void tryTriggerEvent(std::string eventName);
+    void initNewTrigger(std::shared_ptr<Event> event, EventTrigger trigger);
+    void tryTriggerEvent(std::shared_ptr<Event> event);
 
 };
 
