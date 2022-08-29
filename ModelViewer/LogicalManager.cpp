@@ -17,9 +17,9 @@ void LogicalManager::onLogicalInit()
     }
 }
 
-void LogicalManager::initNewTrigger(std::shared_ptr<Event> event, EventTrigger trigger)
+void LogicalManager::initNewTrigger(Event event, EventTrigger trigger)
 {
-    eventBus.insert(std::make_pair(event->getEventName(), trigger));
+    eventBus.insert(std::make_pair(event.getEventName(), trigger));
 }
 
 void LogicalManager::tryTriggerEvent(std::shared_ptr<Event> event)

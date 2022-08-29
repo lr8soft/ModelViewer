@@ -18,6 +18,10 @@ private:
     SharedQueue<std::shared_ptr<Event>> pendingTriggerList;
 
     RenderManager();
+
+    void OnEventInit();
+    void OnEventBusUpdate();
+
 public:
 
     static RenderManager* getInstance();
@@ -25,7 +29,7 @@ public:
     void OnInit();
     void OnRender();
 
-    void initNewTrigger(std::shared_ptr<Event> event, EventTrigger trigger);
+    void initNewTrigger(Event event, EventTrigger trigger);
     void tryTriggerEvent(std::shared_ptr<Event> event);
 
 };

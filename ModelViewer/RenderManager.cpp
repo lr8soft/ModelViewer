@@ -3,6 +3,7 @@
 
 #include "AppFrame.h"
 #include "RenderManager.h"
+#include "RenderEvents.h"
 #include "UIManager.h"
 
 #include "Utils/LogUtil.hpp"
@@ -23,6 +24,12 @@ void RenderManager::OnInit()
     GLFWwindow* screen = AppFrame::getInstance()->getScreen();
 
     UIManager::OnRenderInit(screen);
+    OnEventInit();
+}
+
+void RenderManager::OnEventInit()
+{
+    initNewTrigger(Event(EVENT_LOAD_NEW_MODEL), RenderEvents::OnInitModel);
 }
 
 void RenderManager::OnRender()
@@ -35,14 +42,37 @@ void RenderManager::OnRender()
     glfwPollEvents();
 
     UIManager::OnRenderUI();
+    OnEventBusUpdate();
 
     glfwSwapBuffers(screen);
-
 }
 
-void RenderManager::initNewTrigger(std::shared_ptr<Event> event, EventTrigger trigger)
+void RenderManager::OnEventBusUpdate()
 {
-    eventBus.insert(std::make_pair(event->getEventName(), trigger));
+    while (!pendingTriggerList.empty())
+    {
+        auto event = pendingTriggerList.front();
+        // find all triggers
+        auto eventIter = eventBus.find(event->getEventName());
+        while (eventIter != eventBus.end())
+        {
+            // check event is cancel
+            if (event->isCancel())
+            {
+                break;
+            }
+            // trigger work
+            eventIter->second(*event);
+            eventIter++;
+        }
+        // clean Event object
+        pendingTriggerList.pop();
+    }
+}
+
+void RenderManager::initNewTrigger(Event event, EventTrigger trigger)
+{
+    eventBus.insert(std::make_pair(event.getEventName(), trigger));
 }
 
 void RenderManager::tryTriggerEvent(std::shared_ptr<Event> event)

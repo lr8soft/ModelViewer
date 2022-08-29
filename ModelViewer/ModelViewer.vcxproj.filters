@@ -61,6 +61,7 @@
       <Filter>Model</Filter>
     </ClCompile>
     <ClCompile Include="LogicalManager.cpp" />
+    <ClCompile Include="ModelManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppFrame.h" />
@@ -125,5 +126,6 @@
       <Filter>Model</Filter>
     </ClInclude>
     <ClInclude Include="LogicalManager.h" />
+    <ClInclude Include="ModelManager.h" />
   </ItemGroup>
 </Project>

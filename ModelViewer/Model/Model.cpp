@@ -7,6 +7,7 @@
 #include "Model.h"
 
 #include "../Utils/ImageLoader.h"
+#include "../Utils/LogUtil.hpp"
 Model::Model(const std::string& path) : modelPath(path)
 {
 }
@@ -43,6 +44,11 @@ bool Model::isModelInit()
 	return isInit;
 }
 
+std::string Model::getModelPath()
+{
+    return modelPath;
+}
+
 void Model::loadModel(std::string path)
 {
 	Assimp::Importer importer;
@@ -50,7 +56,7 @@ void Model::loadModel(std::string path)
 	// check for errors
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
 	{
-		std::cout << "[ERROR] ASSIMP:: " << importer.GetErrorString() << std::endl;
+        LogUtil::printError(std::string("ASSIMP:") + importer.GetErrorString());
 		return;
 	}
 	// retrieve the directory path of the filepath

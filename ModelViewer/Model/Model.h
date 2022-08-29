@@ -14,6 +14,8 @@ public:
 	void onModelRelease();
 
 	bool isModelInit();
+
+    std::string getModelPath();
 private:
 	std::string modelPath;
 	std::string directory;

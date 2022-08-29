@@ -20,6 +20,7 @@
     <ClCompile Include="Libs\imgui\imgui_tables.cpp" />
     <ClCompile Include="Libs\imgui\imgui_widgets.cpp" />
     <ClCompile Include="LogicalManager.cpp" />
+    <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="ModelViewer.cpp" />
     <ClCompile Include="Model\Mesh.cpp" />
     <ClCompile Include="Model\Model.cpp" />
@@ -44,6 +45,7 @@
     <ClInclude Include="Libs\imgui\imstb_textedit.h" />
     <ClInclude Include="Libs\imgui\imstb_truetype.h" />
     <ClInclude Include="LogicalManager.h" />
+    <ClInclude Include="ModelManager.h" />
     <ClInclude Include="Model\Mesh.h" />
     <ClInclude Include="Model\Model.h" />
     <ClInclude Include="RenderManager.h" />

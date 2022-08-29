@@ -30,7 +30,7 @@ public:
 
     void onLogicalInit();
 
-    void initNewTrigger(std::shared_ptr<Event> event, EventTrigger trigger);
+    void initNewTrigger(Event event, EventTrigger trigger);
     void tryTriggerEvent(std::shared_ptr<Event> event);
 
 };

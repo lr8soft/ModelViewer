@@ -2,6 +2,7 @@
 #ifndef _EVENT_H_
 #define _EVENT_H_
 #include <string>
+#include "EventDefine.h"
 
 class Event {
 protected:
@@ -9,7 +10,7 @@ protected:
     std::string eventName;
     const void* const eventData;
 public:
-    Event(const std::string name, const void* const data): eventName(name), eventData(data) {}
+    Event(const std::string name, const void* const data = nullptr): eventName(name), eventData(data) {}
 
     bool isCancel() { return isEventCancel; }
     void setIsCancel(bool value) { isEventCancel = value; }
