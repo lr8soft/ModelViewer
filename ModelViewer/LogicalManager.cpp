@@ -1,40 +1,40 @@
 #include "AppFrame.h"
-#include "EngineManager.h"
+#include "LogicalManager.h"
 
 #include "Utils/LogUtil.hpp"
 
-EngineManager* EngineManager::pInstance = nullptr;
+LogicalManager* LogicalManager::pInstance = nullptr;
 
-EngineManager::EngineManager() {}
+LogicalManager::LogicalManager() {}
 
-void EngineManager::onLogicalInit()
+void LogicalManager::onLogicalInit()
 {
     if (logicalThread == nullptr)
     {
         // start logical thread
-        logicalThread = new std::thread(&EngineManager::onLogicalWork, this);
+        logicalThread = new std::thread(&LogicalManager::onLogicalWork, this);
         logicalThread->detach();
     }
 }
 
-void EngineManager::initNewTrigger(std::shared_ptr<Event> event, EventTrigger trigger)
+void LogicalManager::initNewTrigger(std::shared_ptr<Event> event, EventTrigger trigger)
 {
     eventBus.insert(std::make_pair(event->getEventName(), trigger));
 }
 
-void EngineManager::tryTriggerEvent(std::shared_ptr<Event> event)
+void LogicalManager::tryTriggerEvent(std::shared_ptr<Event> event)
 {
     pendingTriggerList.push(event);
 }
 
-EngineManager * EngineManager::getInstance()
+LogicalManager * LogicalManager::getInstance()
 {
     if (pInstance == nullptr)
-        pInstance = new EngineManager;
+        pInstance = new LogicalManager;
     return pInstance;
 }
 
-void EngineManager::onLogicalWork()
+void LogicalManager::onLogicalWork()
 {
 #if _DEBUG
     LogUtil::printWarn("Logical thread start.");

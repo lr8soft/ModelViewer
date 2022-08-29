@@ -2,7 +2,7 @@
 #include <gl3w/gl3w.h>
 
 #include "AppFrame.h"
-#include "EngineManager.h"
+#include "LogicalManager.h"
 #include "UIManager.h"
 #include "RenderManager.h"
 
@@ -82,7 +82,7 @@ void AppFrame::FrameInit()
 
 void AppFrame::FrameWork()
 {
-    EngineManager::getInstance()->onLogicalInit();
+    LogicalManager::getInstance()->onLogicalInit();
 
     while (!glfwWindowShouldClose(pScreen)) {
         RenderManager::getInstance()->OnRender();

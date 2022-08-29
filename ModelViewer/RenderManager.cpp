@@ -39,3 +39,13 @@ void RenderManager::OnRender()
     glfwSwapBuffers(screen);
 
 }
+
+void RenderManager::initNewTrigger(std::shared_ptr<Event> event, EventTrigger trigger)
+{
+    eventBus.insert(std::make_pair(event->getEventName(), trigger));
+}
+
+void RenderManager::tryTriggerEvent(std::shared_ptr<Event> event)
+{
+    pendingTriggerList.push(event);
+}

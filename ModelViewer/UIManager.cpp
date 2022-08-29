@@ -3,9 +3,11 @@
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_opengl3_loader.h>
 
+#include <Windows.h>
+#include <commdlg.h>
 
 #include "UIManager.h"
-#include "EngineManager.h"
+#include "LogicalManager.h"
 
 #include "Utils/LogUtil.hpp"
 
@@ -22,12 +24,10 @@ void UIManager::OnRenderInit(GLFWwindow* pScreen)
     ImGui_ImplOpenGL3_Init("#version 450");
 }
 
-
-
 void UIManager::RenderLoaderPanel()
 {
     static bool isVisable = true;
-    static char filePath[256] = {0};
+    static char filePath[260] = {0};
 
     int bigBtnWidth = 100, bigBtnHeight = 30;
     if (isVisable)
@@ -36,14 +36,35 @@ void UIManager::RenderLoaderPanel()
         {
             if (ImGui::Button("Select..."))
             {
-
+                OPENFILENAMEA openFileName;
+                char szFile[260];
+                ZeroMemory(&openFileName, sizeof(openFileName));
+                openFileName.lStructSize = sizeof(openFileName);
+                openFileName.hwndOwner = NULL;
+                openFileName.lpstrFile = szFile;
+                openFileName.lpstrFile[0] = '\0';
+                openFileName.nMaxFile = sizeof(szFile);
+                openFileName.lpstrFilter = "Model Files(*.obj)\0*.obj\0All Files(*.*)\0*.*\0\0";
+                openFileName.nFilterIndex = 1;
+                openFileName.lpstrFileTitle = NULL;
+                openFileName.nMaxFileTitle = 0;
+                openFileName.lpstrInitialDir = NULL;
+                openFileName.Flags = 0;
+                if (GetOpenFileNameA(&openFileName) == FALSE)
+                {
+                    LogUtil::printError("Can not open file!");
+                }
+                else
+                {
+                    memcpy_s(filePath, 260, openFileName.lpstrFile, 260);
+                }
             }
             ImGui::SameLine();
             ImGui::InputText("Path", filePath, 255);
-            ImGui::NewLine();
+
             if (ImGui::Button("Confirm", ImVec2(bigBtnWidth, bigBtnHeight)))
             {
-                LogUtil::printInfo(filePath);
+
             }
 
             ImGui::SameLine();

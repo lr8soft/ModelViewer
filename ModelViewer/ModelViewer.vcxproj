@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EngineManager.cpp" />
     <ClCompile Include="AppFrame.cpp" />
     <ClCompile Include="EObject.cpp" />
     <ClCompile Include="Libs\imgui\imgui.cpp" />
@@ -20,7 +19,10 @@
     <ClCompile Include="Libs\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Libs\imgui\imgui_tables.cpp" />
     <ClCompile Include="Libs\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="LogicalManager.cpp" />
     <ClCompile Include="ModelViewer.cpp" />
+    <ClCompile Include="Model\Mesh.cpp" />
+    <ClCompile Include="Model\Model.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Utils\ImageLoader.cpp" />
@@ -28,7 +30,6 @@
     <ClCompile Include="Utils\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EngineManager.h" />
     <ClInclude Include="AppFrame.h" />
     <ClInclude Include="EObject.h" />
     <ClInclude Include="Events\Event.h" />
@@ -42,6 +43,9 @@
     <ClInclude Include="Libs\imgui\imstb_rectpack.h" />
     <ClInclude Include="Libs\imgui\imstb_textedit.h" />
     <ClInclude Include="Libs\imgui\imstb_truetype.h" />
+    <ClInclude Include="LogicalManager.h" />
+    <ClInclude Include="Model\Mesh.h" />
+    <ClInclude Include="Model\Model.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="Utils\ImageLoader.h" />
@@ -63,6 +67,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -70,6 +75,7 @@
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">

@@ -11,10 +11,10 @@
 #include "Utils/Timer.h"
 #include "Utils/SharedQueue.hpp"
 
-class EngineManager 
+class LogicalManager 
 {
 private:
-    static EngineManager* pInstance;
+    static LogicalManager* pInstance;
 
     std::thread* logicalThread = nullptr;
     // event name->triggers
@@ -22,11 +22,11 @@ private:
 
     SharedQueue<std::shared_ptr<Event>> pendingTriggerList;
 
-    EngineManager();
+    LogicalManager();
 
     void onLogicalWork();
 public:
-    static EngineManager* getInstance();
+    static LogicalManager* getInstance();
 
     void onLogicalInit();
 
