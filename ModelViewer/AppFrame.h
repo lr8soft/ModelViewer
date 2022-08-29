@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <atomic>
 
+
 class AppFrame
 {
 private:
@@ -27,7 +28,7 @@ public:
     GLFWwindow* getScreen();
 
     void FrameInit();
-    void FrameLoop();
+    void FrameWork();
     void FrameFinalize();
 };
 

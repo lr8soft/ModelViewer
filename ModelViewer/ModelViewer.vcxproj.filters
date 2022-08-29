@@ -14,6 +14,9 @@
     <Filter Include="Libs\imgui">
       <UniqueIdentifier>{01cf7ee8-079a-4051-b9e6-31ac63642cea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Events">
+      <UniqueIdentifier>{36c5a99b-48e6-4833-b8ed-d645affed854}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModelViewer.cpp" />
@@ -45,6 +48,7 @@
     <ClCompile Include="Libs\imgui\imgui_widgets.cpp">
       <Filter>Libs\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppFrame.h" />
@@ -89,6 +93,10 @@
     </ClInclude>
     <ClInclude Include="Libs\imgui\imstb_truetype.h">
       <Filter>Libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h" />
+    <ClInclude Include="Events\Event.h">
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

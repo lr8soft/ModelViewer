@@ -12,7 +12,8 @@ public:
 
     static RenderManager* getInstance();
 
-
+    void OnInit();
+    void OnRender();
 
 };
 

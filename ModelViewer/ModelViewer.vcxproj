@@ -22,6 +22,7 @@
     <ClCompile Include="Libs\imgui\imgui_widgets.cpp" />
     <ClCompile Include="ModelViewer.cpp" />
     <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Utils\ShaderReader.cpp" />
     <ClCompile Include="Utils\Timer.cpp" />
   </ItemGroup>
@@ -29,6 +30,7 @@
     <ClInclude Include="EngineManager.h" />
     <ClInclude Include="AppFrame.h" />
     <ClInclude Include="EObject.h" />
+    <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Libs\imgui\imconfig.h" />
     <ClInclude Include="Libs\imgui\imgui.h" />
     <ClInclude Include="Libs\imgui\imgui_impl_glfw.h" />
@@ -39,6 +41,7 @@
     <ClInclude Include="Libs\imgui\imstb_textedit.h" />
     <ClInclude Include="Libs\imgui\imstb_truetype.h" />
     <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="UIManager.h" />
     <ClInclude Include="Utils\MathUtils.h" />
     <ClInclude Include="Utils\LogUtil.hpp" />
     <ClInclude Include="Utils\ShaderReader.h" />

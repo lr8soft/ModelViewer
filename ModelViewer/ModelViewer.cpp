@@ -5,7 +5,7 @@ int main()
 
     AppFrame *inst = AppFrame::getInstance();
     inst->FrameInit();
-    inst->FrameLoop();
+    inst->FrameWork();
     inst->FrameFinalize();
 
     return 0;
