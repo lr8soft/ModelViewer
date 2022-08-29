@@ -24,7 +24,9 @@
     <ClCompile Include="ModelViewer.cpp" />
     <ClCompile Include="Model\Mesh.cpp" />
     <ClCompile Include="Model\Model.cpp" />
+    <ClCompile Include="RenderEvents.cpp" />
     <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Utils\ImageLoader.cpp" />
     <ClCompile Include="Utils\ShaderReader.cpp" />
@@ -44,11 +46,15 @@
     <ClInclude Include="Libs\imgui\imstb_rectpack.h" />
     <ClInclude Include="Libs\imgui\imstb_textedit.h" />
     <ClInclude Include="Libs\imgui\imstb_truetype.h" />
+    <ClInclude Include="LogicalEvent.h" />
     <ClInclude Include="LogicalManager.h" />
     <ClInclude Include="ModelManager.h" />
     <ClInclude Include="Model\Mesh.h" />
     <ClInclude Include="Model\Model.h" />
+    <ClInclude Include="RenderData.h" />
+    <ClInclude Include="RenderEvents.h" />
     <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="Utils\ImageLoader.h" />
     <ClInclude Include="Utils\MathUtils.h" />

@@ -30,6 +30,9 @@ void RenderManager::OnInit()
 void RenderManager::OnEventInit()
 {
     initNewTrigger(Event(EVENT_LOAD_NEW_MODEL), RenderEvents::OnInitModel);
+    initNewTrigger(Event(EVENT_RENDER_MODEL), RenderEvents::OnRenderModel);
+    initNewTrigger(Event(EVENT_LOAD_SHADER), RenderEvents::OnLoadShader);
+    initNewTrigger(Event(EVENT_SEND_UNIFORM_DATA), RenderEvents::OnSendUniformData);
 }
 
 void RenderManager::OnRender()
@@ -53,8 +56,9 @@ void RenderManager::OnEventBusUpdate()
     {
         auto event = pendingTriggerList.front();
         // find all triggers
-        auto eventIter = eventBus.find(event->getEventName());
-        while (eventIter != eventBus.end())
+        auto eventIter = eventBus.lower_bound(event->getEventName());
+        auto eventEnd = eventBus.upper_bound(event->getEventName());
+        while (eventIter != eventEnd)
         {
             // check event is cancel
             if (event->isCancel())
@@ -63,7 +67,7 @@ void RenderManager::OnEventBusUpdate()
             }
             // trigger work
             eventIter->second(*event);
-            eventIter++;
+            ++eventIter;
         }
         // clean Event object
         pendingTriggerList.pop();

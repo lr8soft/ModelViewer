@@ -3,11 +3,13 @@
 #define _MODEL_MANAGER_H_
 #include <string>
 #include <map>
+#include <mutex>
 
 #include "Model/Model.h"
 
 class ModelManager {
 private:
+    std::mutex modelMutex;
     std::map<std::string, Model*> globalModelGroup;
 
     Model* GetModel(const std::string& modelFileName);

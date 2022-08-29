@@ -1,5 +1,6 @@
 #include "AppFrame.h"
 #include "LogicalManager.h"
+#include "RenderManager.h"
 
 #include "Utils/LogUtil.hpp"
 
@@ -41,12 +42,15 @@ void LogicalManager::onLogicalWork()
 #endif
     while (!AppFrame::getInstance()->getFrameTerminate())
     {
+        //RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_NEW_MODEL, "H:\\ModelViewer\\ModelViewer\\Assets\\1.FBX"));
+
         while (!pendingTriggerList.empty())
         {
             auto event = pendingTriggerList.front();
             // find all triggers
-            auto eventIter = eventBus.find(event->getEventName());
-            while (eventIter != eventBus.end())
+            auto eventIter = eventBus.lower_bound(event->getEventName());
+            auto eventEnd = eventBus.upper_bound(event->getEventName());
+            while (eventIter != eventEnd)
             {
                 // check event is cancel
                 if (event->isCancel())
@@ -55,7 +59,7 @@ void LogicalManager::onLogicalWork()
                 }
                 // trigger work
                 eventIter->second(*event);
-                eventIter++;
+                ++eventIter;
             }
             // clean Event object
             pendingTriggerList.pop();

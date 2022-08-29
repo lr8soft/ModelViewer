@@ -62,6 +62,8 @@
     </ClCompile>
     <ClCompile Include="LogicalManager.cpp" />
     <ClCompile Include="ModelManager.cpp" />
+    <ClCompile Include="RenderEvents.cpp" />
+    <ClCompile Include="ShaderManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppFrame.h" />
@@ -127,5 +129,9 @@
     </ClInclude>
     <ClInclude Include="LogicalManager.h" />
     <ClInclude Include="ModelManager.h" />
+    <ClInclude Include="RenderEvents.h" />
+    <ClInclude Include="LogicalEvent.h" />
+    <ClInclude Include="ShaderManager.h" />
+    <ClInclude Include="RenderData.h" />
   </ItemGroup>
 </Project>

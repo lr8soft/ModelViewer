@@ -12,6 +12,8 @@ ModelManager * ModelManager::getInstance()
 
 void ModelManager::LoadModel(const std::string & modelFileName)
 {
+    std::lock_guard<std::mutex> gurad(modelMutex);
+
     Model* model = GetModel(modelFileName);
     if (model == nullptr)
     {
