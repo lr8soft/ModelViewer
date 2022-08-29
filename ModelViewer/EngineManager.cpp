@@ -24,6 +24,7 @@ void EngineManager::initNewEvent(std::string eventName, std::shared_ptr<Event> e
 
 void EngineManager::tryTriggerEvent(std::string eventName)
 {
+    pendingTriggerList.push(eventName);
 }
 
 EngineManager * EngineManager::getInstance()
@@ -35,9 +36,21 @@ EngineManager * EngineManager::getInstance()
 
 void EngineManager::onLogicalWork()
 {
-    LogUtil::printInfo("Logical thread start.");
     while (!AppFrame::getInstance()->getFrameTerminate())
     {
-        LogUtil::printInfo("logical work");
+        while (!pendingTriggerList.empty())
+        {
+            std::string eventName = pendingTriggerList.front();
+
+            LogUtil::printInfo("Try trigger event" + eventName);
+            auto eventIter = eventBus.find(eventName);
+            while (eventIter != eventBus.end())
+            {
+                eventIter->second->onEventTrigger();
+                eventIter++;
+            }
+
+            pendingTriggerList.pop();
+        }
     }
 }

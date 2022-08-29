@@ -45,6 +45,7 @@
     <ClInclude Include="Utils\MathUtils.h" />
     <ClInclude Include="Utils\LogUtil.hpp" />
     <ClInclude Include="Utils\ShaderReader.h" />
+    <ClInclude Include="Utils\SharedQueue.hpp" />
     <ClInclude Include="Utils\Timer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

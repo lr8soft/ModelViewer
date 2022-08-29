@@ -27,7 +27,6 @@ void RenderManager::OnInit()
 
 void RenderManager::OnRender()
 {
-    LogUtil::printInfo("render work");
     GLFWwindow* screen = AppFrame::getInstance()->getScreen();
 
     glClearColor(0, 0, 0, 0);

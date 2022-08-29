@@ -7,8 +7,10 @@
 #include <map>
 #include <memory>
 
+
 #include "Events/Event.h"
 #include "Utils/Timer.h"
+#include "Utils/SharedQueue.hpp"
 
 class EngineManager 
 {
@@ -17,6 +19,8 @@ private:
 
     std::thread* logicalThread = nullptr;
     std::multimap<std::string, std::shared_ptr<Event>> eventBus;
+
+    SharedQueue<std::string> pendingTriggerList;
 
     EngineManager();
 

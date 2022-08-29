@@ -98,5 +98,8 @@
     <ClInclude Include="Events\Event.h">
       <Filter>Events</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\SharedQueue.hpp">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
