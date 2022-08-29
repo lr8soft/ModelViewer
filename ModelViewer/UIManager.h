@@ -4,6 +4,8 @@
 
 struct GLFWwindow;
 class UIManager {
+private:
+    static void RenderLoaderPanel();
 public:
     static void OnRenderInit(GLFWwindow* pScreen);
     static void OnRenderUI();

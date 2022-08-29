@@ -7,7 +7,6 @@
 #include <map>
 #include <memory>
 
-
 #include "Events/Event.h"
 #include "Utils/Timer.h"
 #include "Utils/SharedQueue.hpp"

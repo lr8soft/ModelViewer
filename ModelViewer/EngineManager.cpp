@@ -36,6 +36,9 @@ EngineManager * EngineManager::getInstance()
 
 void EngineManager::onLogicalWork()
 {
+#if _DEBUG
+    LogUtil::printWarn("Logical thread start.");
+#endif
     while (!AppFrame::getInstance()->getFrameTerminate())
     {
         while (!pendingTriggerList.empty())

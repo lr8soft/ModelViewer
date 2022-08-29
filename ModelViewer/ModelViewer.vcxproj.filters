@@ -17,6 +17,9 @@
     <Filter Include="Events">
       <UniqueIdentifier>{36c5a99b-48e6-4833-b8ed-d645affed854}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{9109bc32-8a86-438d-8d56-54f8b3de4030}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModelViewer.cpp" />
@@ -49,6 +52,9 @@
       <Filter>Libs\imgui</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="Utils\ImageLoader.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppFrame.h" />
@@ -99,6 +105,12 @@
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="Utils\SharedQueue.hpp">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\EventDefine.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\ImageLoader.h">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>

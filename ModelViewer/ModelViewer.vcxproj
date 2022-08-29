@@ -23,6 +23,7 @@
     <ClCompile Include="ModelViewer.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="Utils\ImageLoader.cpp" />
     <ClCompile Include="Utils\ShaderReader.cpp" />
     <ClCompile Include="Utils\Timer.cpp" />
   </ItemGroup>
@@ -31,6 +32,7 @@
     <ClInclude Include="AppFrame.h" />
     <ClInclude Include="EObject.h" />
     <ClInclude Include="Events\Event.h" />
+    <ClInclude Include="Events\EventDefine.h" />
     <ClInclude Include="Libs\imgui\imconfig.h" />
     <ClInclude Include="Libs\imgui\imgui.h" />
     <ClInclude Include="Libs\imgui\imgui_impl_glfw.h" />
@@ -42,6 +44,7 @@
     <ClInclude Include="Libs\imgui\imstb_truetype.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="UIManager.h" />
+    <ClInclude Include="Utils\ImageLoader.h" />
     <ClInclude Include="Utils\MathUtils.h" />
     <ClInclude Include="Utils\LogUtil.hpp" />
     <ClInclude Include="Utils\ShaderReader.h" />
@@ -82,11 +85,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LibraryPath>$(ProjectDir)..\Libs\$(Configuration)\;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir)Libs\glfw\include;$(ProjectDir)Libs\gl3w\include;$(ProjectDir)Libs\glm;$(ProjectDir)Libs\stbi;$(ProjectDir)Libs\imgui;$(ProjectDir)Libs\gl;$(ProjectDir)Libs\KHR;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Libs\glfw\include;$(ProjectDir)Libs\gl3w\include;$(ProjectDir)Libs\assimp\include;$(ProjectDir)Libs\glm;$(ProjectDir)Libs\stbi;$(ProjectDir)Libs\imgui;$(ProjectDir)Libs\gl;$(ProjectDir)Libs\KHR;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LibraryPath>$(ProjectDir)..\Libs\$(Configuration)\;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir)Libs\glfw\include;$(ProjectDir)Libs\gl3w\include;$(ProjectDir)Libs\glm;$(ProjectDir)Libs\stbi;$(ProjectDir)Libs\imgui;$(ProjectDir)Libs\gl;$(ProjectDir)Libs\KHR;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Libs\glfw\include;$(ProjectDir)Libs\gl3w\include;$(ProjectDir)Libs\assimp\include;$(ProjectDir)Libs\glm;$(ProjectDir)Libs\stbi;$(ProjectDir)Libs\imgui;$(ProjectDir)Libs\gl;$(ProjectDir)Libs\KHR;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
