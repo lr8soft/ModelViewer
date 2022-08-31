@@ -52,15 +52,14 @@ bool Model::loadModel(std::string path)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
-	// check for errors
+    // check for errors
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
 	{
         LogUtil::printError(std::string("ASSIMP:") + importer.GetErrorString());
 		return false;
 	}
-
 	// retrieve the directory path of the filepath
-	directory = path.substr(0, path.find_last_of('/'));
+	directory = path.substr(0, path.find_last_of('\\'));
 
 	// process ASSIMP's root node recursively
 	processNode(scene->mRootNode, scene);
@@ -174,7 +173,7 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial * mat, aiTextureType
 		mat->GetTexture(type, i, &str);
 
 		ImageLoader imageLoader;
-		imageLoader.loadTextureFromFile((this->directory + "/" + str.C_Str()).c_str());
+		imageLoader.loadTextureFromFile((this->directory + "\\" + str.C_Str()).c_str());
 
 		Texture texture;
 		texture.id = imageLoader.getTextureBufferObjectHandle();

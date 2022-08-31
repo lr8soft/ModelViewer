@@ -1,7 +1,6 @@
 #pragma once
 #ifndef _RENDER_MANAGER_H_
 #define _RENDER_MANAGER_H_
-
 #include <map>
 
 #include "Events/Event.h"
@@ -31,7 +30,6 @@ public:
 
     void initNewTrigger(Event event, EventTrigger trigger);
     void tryTriggerEvent(std::shared_ptr<Event> event);
-
 };
 
 #endif

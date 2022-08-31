@@ -118,6 +118,9 @@
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>glfw3.lib;gl3w.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>echo f | xcopy "$(ProjectDir)..\Dlls\$(Configuration)\assimp.dll" "$(ProjectDir)" /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -135,6 +138,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>glfw3.lib;gl3w.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>echo f | xcopy "$(ProjectDir)..\Dlls\$(Configuration)\assimp.dll" "$(ProjectDir)" /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

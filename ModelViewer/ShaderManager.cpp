@@ -2,21 +2,27 @@
 #include <gl3w/gl3w.h>
 #include "Utils/ShaderReader.h"
 
-ShaderManager::~ShaderManager()
+ShaderManager* ShaderManager::pInstance = nullptr;
+ShaderManager::ShaderManager() {}
+ShaderManager::~ShaderManager() {}
+
+GLuint ShaderManager::bindProgram(std::string shaderName)
 {
+    GLuint programHandle = 0;
+    if (shaderGroup.find(shaderName) != shaderGroup.end())
+    {
+        programHandle = shaderGroup[shaderName];
+        glUseProgram(programHandle);
+    }
+    return programHandle;
 }
 
 GLuint ShaderManager::bindProgram(ShaderData & data)
 {
-
-    GLuint programHandle = 0;
+    GLuint programHandle = bindProgram(data.shaderName);
     //  Find shader
-    if (shaderGroup.find(data.shaderName) != shaderGroup.end())
+    if (programHandle == 0)
     {
-        programHandle = shaderGroup[data.shaderName];
-        glUseProgram(programHandle);
-    }
-    else {
         //  Init shader
         GLUtils::ShaderReader shader;
         shader.loadFromFile(data.vertexShader.c_str(), GL_VERTEX_SHADER);
@@ -45,5 +51,7 @@ bool ShaderManager::deleteProgram(ShaderData & data)
 
 ShaderManager * ShaderManager::getInstance()
 {
-    return nullptr;
+    if (pInstance == nullptr)
+        pInstance = new ShaderManager;
+    return pInstance;
 }

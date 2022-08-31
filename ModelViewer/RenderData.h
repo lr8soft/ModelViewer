@@ -9,7 +9,7 @@
 
 struct RenderData {
     std::string modelName;
-    unsigned int shaderId;
+    std::string shaderName = "default";
     unsigned int textureStartIndex = 0;
 };
 
@@ -19,7 +19,7 @@ struct ShaderData {
     std::string fragShader;
 };
 
-union UniformValue {
+struct UniformValue {
     glm::mat4 matrix5;
     glm::vec4 vector4;
     glm::vec3 vector3;
@@ -31,9 +31,9 @@ union UniformValue {
 
 struct UniformData {
     std::string attrName;
+    std::string shaderName = "default";
     UniformValue value;
     unsigned int valueIndex = 0;
-    unsigned int shaderId;
 };
 
 #endif

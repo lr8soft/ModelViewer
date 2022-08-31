@@ -33,6 +33,9 @@ void RenderManager::OnEventInit()
     initNewTrigger(Event(EVENT_RENDER_MODEL), RenderEvents::OnRenderModel);
     initNewTrigger(Event(EVENT_LOAD_SHADER), RenderEvents::OnLoadShader);
     initNewTrigger(Event(EVENT_SEND_UNIFORM_DATA), RenderEvents::OnSendUniformData);
+
+    static ShaderData data { "default", "Assets/default.vert", "Assets/default.frag" };
+    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &data));
 }
 
 void RenderManager::OnRender()
@@ -52,26 +55,37 @@ void RenderManager::OnRender()
 
 void RenderManager::OnEventBusUpdate()
 {
-    while (!pendingTriggerList.empty())
+    size_t pendingSize = pendingTriggerList.size();
+    if (pendingSize == 0)
+        return;
+
+    int lastIndex = pendingSize - 1;
+
+    while (lastIndex >= 0)
     {
-        std::shared_ptr<Event> event = pendingTriggerList.front();
+        std::shared_ptr<Event> currentEvent = pendingTriggerList.front();
         // find all triggers
-        auto triggerIter = eventBus.lower_bound(event->getEventName());
-        auto triggerEnd = eventBus.upper_bound(event->getEventName());
+        auto triggerIter = eventBus.lower_bound(currentEvent->getEventName());
+        auto triggerEnd = eventBus.upper_bound(currentEvent->getEventName());
         while (triggerIter != triggerEnd)
         {
             // check event is cancel
-            if (event->isCancel())
+            if (currentEvent->isCancel())
             {
                 break;
             }
             // trigger work
-            triggerIter->second(*event);
+            triggerIter->second(*currentEvent);
             ++triggerIter;
         }
         // clean Event object
         pendingTriggerList.pop();
-
+        // add event to last
+        if (currentEvent->isOngoingEvent())
+        {
+            pendingTriggerList.push(currentEvent);
+        }
+        lastIndex--;
     }
 }
 

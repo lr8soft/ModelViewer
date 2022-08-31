@@ -42,28 +42,37 @@ void LogicalManager::onLogicalWork()
 #endif
     while (!AppFrame::getInstance()->getFrameTerminate())
     {
-        //RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_NEW_MODEL, "D:/1/1.0bj"));
+        size_t pendingSize = pendingTriggerList.size();
+        if (pendingSize == 0)
+            return;
 
-        while (!pendingTriggerList.empty())
+        int lastIndex = pendingSize - 1;
+
+        while (lastIndex >= 0)
         {
-            auto event = pendingTriggerList.front();
+            std::shared_ptr<Event> currentEvent = pendingTriggerList.front();
             // find all triggers
-            auto eventIter = eventBus.lower_bound(event->getEventName());
-            auto eventEnd = eventBus.upper_bound(event->getEventName());
-            while (eventIter != eventEnd)
+            auto triggerIter = eventBus.lower_bound(currentEvent->getEventName());
+            auto triggerEnd = eventBus.upper_bound(currentEvent->getEventName());
+            while (triggerIter != triggerEnd)
             {
                 // check event is cancel
-                if (event->isCancel())
+                if (currentEvent->isCancel())
                 {
                     break;
                 }
                 // trigger work
-
-                eventIter->second(*event);
-                ++eventIter;
+                triggerIter->second(*currentEvent);
+                ++triggerIter;
             }
             // clean Event object
             pendingTriggerList.pop();
+            // add event to last
+            if (currentEvent->isOngoingEvent())
+            {
+                pendingTriggerList.push(currentEvent);
+            }
+            lastIndex--;
         }
     }
 }

@@ -4,23 +4,11 @@
 #include "ModelManager.h"
 #include "ShaderManager.h"
 
-#include "Utils/LogUtil.hpp"
+
 
 void RenderEvents::OnInitModel(Event& event)
 {
-    auto data = event.getEventData();
-    if (data == nullptr)
-    {
-        LogUtil::printError("No model path!");
-        return;
-    }
-
-    const char* modelPath = static_cast<const char*>(data);
-    if (modelPath == nullptr)
-    {
-        LogUtil::printError("Not model path!");
-        return;
-    }
+    const char* modelPath = getEventData<const char>(event);
 
     ModelManager::getInstance()->LoadModel(modelPath);
     ModelManager::getInstance()->InitModel(modelPath);
@@ -28,75 +16,42 @@ void RenderEvents::OnInitModel(Event& event)
 
 void RenderEvents::OnLoadShader(Event & event)
 {
-    void* ptr = const_cast<void*>(event.getEventData());
-    if (ptr == nullptr)
-    {
-        LogUtil::printError("No shader data!");
-        return;
-    }
-
-    ShaderData* data = static_cast<ShaderData*>(ptr);
-    if (data == nullptr)
-    {
-        LogUtil::printError("No shader data!");
-        return;
-    }
-
+    ShaderData* data = getEventData<ShaderData>(event);
     ShaderManager::getInstance()->bindProgram(*data);
 }
 
 void RenderEvents::OnSendUniformData(Event & event)
 {
-    void* ptr = const_cast<void*>(event.getEventData());
-    if (ptr == nullptr)
-    {
-        LogUtil::printError("No uniform data!");
-        return;
-    }
-
-    UniformData* data = static_cast<UniformData*>(ptr);
-    if (data == nullptr)
-    {
-        LogUtil::printError("No uniform data!");
-        return;
-    }
+    UniformData* data = getEventData<UniformData>(event);
+    GLuint shaderId = ShaderManager::getInstance()->bindProgram(data->shaderName);
 
     switch (data->valueIndex)
     {
     case 0:
-        glUniform1i(glGetUniformLocation(data->shaderId, data->attrName.c_str()), data->value.num0); break;
+        glUniform1i(glGetUniformLocation(shaderId, data->attrName.c_str()), data->value.num0); break;
     case 1:
-        glUniform1f(glGetUniformLocation(data->shaderId, data->attrName.c_str()), data->value.value1); break;
+        glUniform1f(glGetUniformLocation(shaderId, data->attrName.c_str()), data->value.value1); break;
     case 2:
-        glUniform2fv(glGetUniformLocation(data->shaderId, data->attrName.c_str()), 1, glm::value_ptr(data->value.vector2)); break;
+        glUniform2fv(glGetUniformLocation(shaderId, data->attrName.c_str()), 1, glm::value_ptr(data->value.vector2)); break;
     case 3:
-        glUniform3fv(glGetUniformLocation(data->shaderId, data->attrName.c_str()), 1, glm::value_ptr(data->value.vector3)); break;
+        glUniform3fv(glGetUniformLocation(shaderId, data->attrName.c_str()), 1, glm::value_ptr(data->value.vector3)); break;
     case 4:
-        glUniform4fv(glGetUniformLocation(data->shaderId, data->attrName.c_str()), 1, glm::value_ptr(data->value.vector4)); break;
+        glUniform4fv(glGetUniformLocation(shaderId, data->attrName.c_str()), 1, glm::value_ptr(data->value.vector4)); break;
     case 5:
-        glUniformMatrix4fv(glGetUniformLocation(data->shaderId, data->attrName.c_str()), 1, false, glm::value_ptr(data->value.matrix5)); break;
+        glUniformMatrix4fv(glGetUniformLocation(shaderId, data->attrName.c_str()), 1, false, glm::value_ptr(data->value.matrix5)); break;
     default:
         LogUtil::printError("Wrong uniform type!"); break;
     }
-
 }
 
 
 void RenderEvents::OnRenderModel(Event& event)
 {
-    void* data = const_cast<void*>(event.getEventData());
-    if (data == nullptr)
-    {
-        LogUtil::printError("No render data!");
-        return;
-    }
+    RenderData* renderData = getEventData<RenderData>(event);
 
-    RenderData* renderData = static_cast<RenderData*>(data);
-    if (renderData == nullptr)
-    {
-        LogUtil::printError("Not render data!");
-        return;
-    }
-
-    ModelManager::getInstance()->RenderModel(renderData->modelName, renderData->shaderId, true, renderData->textureStartIndex);
+    ModelManager::getInstance()->RenderModel(
+        renderData->modelName,
+        ShaderManager::getInstance()->bindProgram(renderData->shaderName),
+        true,
+        renderData->textureStartIndex);
 }

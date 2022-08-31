@@ -22,6 +22,8 @@ public:
     size_t size();
     bool empty();
 
+    T indexOf(size_t index);
+
 private:
     std::deque<T> queue_;
     std::mutex mutex_;
@@ -40,10 +42,18 @@ bool SharedQueue<T>::empty()
     return size() ? false : true;
 }
 
+template<typename T>
+inline T SharedQueue<T>::indexOf(size_t index)
+{
+
+    return queue_.at(index);
+}
+
 template <typename T>
 T &SharedQueue<T>::front()
 {
     std::unique_lock<std::mutex> mlock(mutex_);
+    // len == 0, wait for new item
     while (queue_.empty())
     {
         cond_.wait(mlock);
@@ -55,6 +65,7 @@ template <typename T>
 void SharedQueue<T>::pop()
 {
     std::unique_lock<std::mutex> mlock(mutex_);
+    // len == 0, wait for new item
     while (queue_.empty())
     {
         cond_.wait(mlock);
@@ -67,8 +78,8 @@ void SharedQueue<T>::push(const T &item)
 {
     std::unique_lock<std::mutex> mlock(mutex_);
     queue_.push_back(item);
-    mlock.unlock();     // unlock before notificiation to minimize mutex con
-    cond_.notify_one(); // notify one waiting thread
+    mlock.unlock();
+    cond_.notify_one(); //  len > 0, notify one of condition
 }
 
 template <typename T>

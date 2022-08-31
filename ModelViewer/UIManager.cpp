@@ -7,6 +7,8 @@
 #include <commdlg.h>
 
 #include "UIManager.h"
+#include "RenderData.h"
+#include "RenderManager.h"
 #include "LogicalManager.h"
 
 #include "Utils/LogUtil.hpp"
@@ -44,27 +46,36 @@ void UIManager::RenderLoaderPanel()
                 openFileName.lpstrFile = szFile;
                 openFileName.lpstrFile[0] = '\0';
                 openFileName.nMaxFile = sizeof(szFile);
-                openFileName.lpstrFilter = "Model Files(*.obj)\0*.obj\0All Files(*.*)\0*.*\0\0";
+                openFileName.lpstrFilter = "All Files(*.*)\0*.*\0\0";
                 openFileName.nFilterIndex = 1;
                 openFileName.lpstrFileTitle = NULL;
                 openFileName.nMaxFileTitle = 0;
                 openFileName.lpstrInitialDir = NULL;
                 openFileName.Flags = 0;
-                if (GetOpenFileNameA(&openFileName) == FALSE)
-                {
-                    LogUtil::printError("Can not open file!");
-                }
-                else
+                if (GetOpenFileNameA(&openFileName) == TRUE)
                 {
                     memcpy_s(filePath, 260, openFileName.lpstrFile, 260);
                 }
             }
             ImGui::SameLine();
             ImGui::InputText("Path", filePath, 255);
-
+            // load model and show
             if (ImGui::Button("Confirm", ImVec2(bigBtnWidth, bigBtnHeight)))
             {
+                RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_NEW_MODEL, filePath));
 
+                static UniformData mvpMatrix;
+                mvpMatrix.attrName = "mvp";
+                mvpMatrix.shaderName = "default";
+
+                mvpMatrix.value.matrix5 = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
+                mvpMatrix.valueIndex = 5;
+
+                RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_SEND_UNIFORM_DATA, &mvpMatrix));
+
+                static RenderData data;
+                data.modelName = filePath;
+                RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_RENDER_MODEL, &data, true));
             }
 
             ImGui::SameLine();

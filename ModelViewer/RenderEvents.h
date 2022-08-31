@@ -3,7 +3,22 @@
 #define _RENDER_EVENTS_H_
 #include "RenderData.h"
 #include "Events/Event.h"
+
+#include "Utils/LogUtil.hpp"
 namespace RenderEvents {
+
+    template<class T> T* getEventData(Event& event)
+    {
+        auto ptr = event.getEventData();
+        if (ptr == nullptr)
+        {
+            LogUtil::printError("No event data!");
+            return nullptr;
+        }
+
+        return (T*)(ptr);
+    }
+
     //  EVENT_LOAD_NEW_MODEL, eventData == model path (const char*)
     void OnInitModel(Event& event);
     //  EVENT_LOAD_SHADER, eventData == shader path (const char*)
