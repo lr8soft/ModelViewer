@@ -16,8 +16,7 @@ void Model::onModelInit()
 {
 	if (!isInit)
 	{
-		loadModel(modelPath);
-		isInit = true;
+		isInit = loadModel(modelPath);
 	}
 }
 
@@ -49,7 +48,7 @@ std::string Model::getModelPath()
     return modelPath;
 }
 
-void Model::loadModel(std::string path)
+bool Model::loadModel(std::string path)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
@@ -57,13 +56,16 @@ void Model::loadModel(std::string path)
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
 	{
         LogUtil::printError(std::string("ASSIMP:") + importer.GetErrorString());
-		return;
+		return false;
 	}
+
 	// retrieve the directory path of the filepath
 	directory = path.substr(0, path.find_last_of('/'));
 
 	// process ASSIMP's root node recursively
 	processNode(scene->mRootNode, scene);
+
+    return true;
 }
 
 void Model::processNode(aiNode * node, const aiScene * scene)

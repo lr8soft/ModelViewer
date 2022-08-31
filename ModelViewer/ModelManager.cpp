@@ -1,5 +1,4 @@
 #include "ModelManager.h"
-
 ModelManager* ModelManager::pInstance = nullptr;
 ModelManager * ModelManager::getInstance()
 {

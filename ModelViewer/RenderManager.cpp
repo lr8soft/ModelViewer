@@ -54,11 +54,11 @@ void RenderManager::OnEventBusUpdate()
 {
     while (!pendingTriggerList.empty())
     {
-        auto event = pendingTriggerList.front();
+        std::shared_ptr<Event> event = pendingTriggerList.front();
         // find all triggers
-        auto eventIter = eventBus.lower_bound(event->getEventName());
-        auto eventEnd = eventBus.upper_bound(event->getEventName());
-        while (eventIter != eventEnd)
+        auto triggerIter = eventBus.lower_bound(event->getEventName());
+        auto triggerEnd = eventBus.upper_bound(event->getEventName());
+        while (triggerIter != triggerEnd)
         {
             // check event is cancel
             if (event->isCancel())
@@ -66,11 +66,12 @@ void RenderManager::OnEventBusUpdate()
                 break;
             }
             // trigger work
-            eventIter->second(*event);
-            ++eventIter;
+            triggerIter->second(*event);
+            ++triggerIter;
         }
         // clean Event object
         pendingTriggerList.pop();
+
     }
 }
 

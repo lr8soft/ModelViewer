@@ -42,7 +42,7 @@ void LogicalManager::onLogicalWork()
 #endif
     while (!AppFrame::getInstance()->getFrameTerminate())
     {
-        //RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_NEW_MODEL, "H:\\ModelViewer\\ModelViewer\\Assets\\1.FBX"));
+        //RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_NEW_MODEL, "D:/1/1.0bj"));
 
         while (!pendingTriggerList.empty())
         {
@@ -58,6 +58,7 @@ void LogicalManager::onLogicalWork()
                     break;
                 }
                 // trigger work
+
                 eventIter->second(*event);
                 ++eventIter;
             }
