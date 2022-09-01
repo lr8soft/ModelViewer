@@ -12,7 +12,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppFrame.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="EObject.cpp" />
+    <ClCompile Include="FrameInfo.cpp" />
     <ClCompile Include="Libs\imgui\imgui.cpp" />
     <ClCompile Include="Libs\imgui\imgui_draw.cpp" />
     <ClCompile Include="Libs\imgui\imgui_impl_glfw.cpp" />
@@ -34,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppFrame.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="EObject.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventDefine.h" />

@@ -64,6 +64,8 @@
     <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="RenderEvents.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="FrameInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppFrame.h" />
@@ -133,5 +135,6 @@
     <ClInclude Include="LogicalEvent.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="RenderData.h" />
+    <ClInclude Include="Camera.h" />
   </ItemGroup>
 </Project>

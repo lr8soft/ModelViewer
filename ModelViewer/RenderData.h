@@ -7,6 +7,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+class FrameInfo {
+public:
+    static float FrameBottom, FrameTop, FrameRight, FrameLeft;
+    static int ScreenWidth, ScreenHeight;
+};
+
 struct RenderData {
     std::string modelName;
     std::string shaderName = "default";

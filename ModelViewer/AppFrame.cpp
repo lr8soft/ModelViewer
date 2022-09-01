@@ -4,6 +4,7 @@
 #include "AppFrame.h"
 #include "LogicalManager.h"
 #include "UIManager.h"
+#include "RenderData.h"
 #include "RenderManager.h"
 
 #include "Utils/LogUtil.hpp"
@@ -16,7 +17,19 @@ AppFrame::AppFrame()
 
 void AppFrame::FrameResize(GLFWwindow * screen, int w, int h)
 {
+    if (w > 0 && h > 0) {
+        float smallSize = w > h ? h : w;
+        float absWidth = smallSize / (float)w;
+        float absHeight = smallSize / (float)h;
 
+        FrameInfo::FrameRight = absWidth;
+        FrameInfo::FrameLeft = -absWidth;
+        FrameInfo::FrameTop = absHeight;
+        FrameInfo::FrameBottom = -absHeight;
+
+        FrameInfo::ScreenHeight = h;
+        FrameInfo::ScreenWidth = w;
+    }
 }
 void AppFrame::FramePos(GLFWwindow * screen, int x, int y)
 {
@@ -51,6 +64,15 @@ GLFWwindow * AppFrame::getScreen()
 
 void AppFrame::FrameInit()
 {
+    float smallSize = FrameInfo::ScreenWidth > FrameInfo::ScreenHeight ? FrameInfo::ScreenHeight : FrameInfo::ScreenWidth;
+    float absWidth = smallSize / (float)FrameInfo::ScreenWidth;
+    float absHeight = smallSize / (float)FrameInfo::ScreenHeight;
+
+    FrameInfo::FrameRight = absWidth;
+    FrameInfo::FrameLeft = -absWidth;
+    FrameInfo::FrameTop = absHeight;
+    FrameInfo::FrameBottom = -absHeight;
+
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -58,7 +80,7 @@ void AppFrame::FrameInit()
     glfwWindowHint(GLFW_RESIZABLE, false);
     glfwWindowHint(GLFW_SCALE_TO_MONITOR, false);//Auto change size
 
-    pScreen = glfwCreateWindow(1280, 720, "ModelViewer", nullptr, nullptr);
+    pScreen = glfwCreateWindow(FrameInfo::ScreenWidth, FrameInfo::ScreenHeight, "ModelViewer", nullptr, nullptr);
     glfwMakeContextCurrent(pScreen);
 
     if (pScreen == nullptr)
