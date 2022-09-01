@@ -7,6 +7,8 @@
 #include <map>
 #include <memory>
 
+#include "Camera.h"
+
 #include "Events/Event.h"
 #include "Utils/Timer.h"
 #include "Utils/SharedQueue.hpp"
@@ -22,6 +24,12 @@ private:
 
     SharedQueue<std::shared_ptr<Event>> pendingTriggerList;
 
+    Camera mainCamera;
+
+    Timer timer;
+
+    float lastUpdateTime = 0.0f;
+
     LogicalManager();
 
     void onLogicalWork();
@@ -30,8 +38,13 @@ public:
 
     void onLogicalInit();
 
+    void onMouseUpdate(double x, double y);
+    void onScrollUpdate(double x, double y);
+
     void initNewTrigger(Event event, EventTrigger trigger);
     void tryTriggerEvent(std::shared_ptr<Event> event);
+
+    Camera* getMainCamera();
 
 };
 

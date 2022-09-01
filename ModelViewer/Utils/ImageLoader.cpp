@@ -1,7 +1,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "ImageLoader.h"
 #include <gl3w/gl3w.h>
-#include "LogUtil.hpp"
+#include "LogUtil.h"
 #include <string>
 std::map<std::string, ImageStruct> ImageLoader::textureGroup;
 ImageLoader::ImageLoader()

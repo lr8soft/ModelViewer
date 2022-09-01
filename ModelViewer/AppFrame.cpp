@@ -7,7 +7,7 @@
 #include "RenderData.h"
 #include "RenderManager.h"
 
-#include "Utils/LogUtil.hpp"
+#include "Utils/LogUtil.h"
 
 AppFrame* AppFrame::pInstance = nullptr;
 
@@ -89,7 +89,6 @@ void AppFrame::FrameInit()
         exit(-1);
     }
 
-
     glfwSwapInterval(1);
     glfwSetFramebufferSizeCallback(pScreen, FrameResize);
     glfwSetWindowPosCallback(pScreen, FramePos);
@@ -112,7 +111,6 @@ void AppFrame::FrameWork()
     isFrameTerminate = true;
 
     glfwDestroyWindow(pScreen);
-    glfwDestroyWindow(tScreen);
     glfwTerminate();
 }
 

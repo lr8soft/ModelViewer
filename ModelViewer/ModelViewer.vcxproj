@@ -31,6 +31,7 @@
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Utils\ImageLoader.cpp" />
+    <ClCompile Include="Utils\LogUtil.cpp" />
     <ClCompile Include="Utils\ShaderReader.cpp" />
     <ClCompile Include="Utils\Timer.cpp" />
   </ItemGroup>
@@ -61,7 +62,7 @@
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="Utils\ImageLoader.h" />
     <ClInclude Include="Utils\MathUtils.h" />
-    <ClInclude Include="Utils\LogUtil.hpp" />
+    <ClInclude Include="Utils\LogUtil.h" />
     <ClInclude Include="Utils\ShaderReader.h" />
     <ClInclude Include="Utils\SharedQueue.hpp" />
     <ClInclude Include="Utils\Timer.h" />

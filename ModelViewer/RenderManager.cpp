@@ -6,7 +6,7 @@
 #include "RenderEvents.h"
 #include "UIManager.h"
 
-#include "Utils/LogUtil.hpp"
+#include "Utils/LogUtil.h"
 
 RenderManager* RenderManager::pInstance = nullptr;
 
@@ -47,8 +47,8 @@ void RenderManager::OnRender()
 
     glfwPollEvents();
 
-    UIManager::OnRenderUI();
     OnEventBusUpdate();
+    UIManager::OnRenderUI();
 
     glfwSwapBuffers(screen);
 }

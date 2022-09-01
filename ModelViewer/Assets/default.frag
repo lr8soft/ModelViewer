@@ -5,5 +5,5 @@ out vec4 FragColor;
 
 void main()
 {   
-    FragColor = texture2D(texture_diffuse1, TexCoords);
+    FragColor = vec4(1.0);//texture2D(texture_diffuse1, TexCoords);
 }

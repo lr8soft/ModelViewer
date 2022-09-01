@@ -66,6 +66,9 @@
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FrameInfo.cpp" />
+    <ClCompile Include="Utils\LogUtil.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppFrame.h" />
@@ -73,9 +76,6 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils\Timer.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\LogUtil.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="EObject.h" />
@@ -136,5 +136,8 @@
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="RenderData.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Utils\LogUtil.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

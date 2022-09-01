@@ -5,7 +5,6 @@
 #include "ShaderManager.h"
 
 
-
 void RenderEvents::OnInitModel(Event& event)
 {
     const char* modelPath = getEventData<const char>(event);

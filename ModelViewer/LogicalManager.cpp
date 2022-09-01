@@ -2,7 +2,7 @@
 #include "LogicalManager.h"
 #include "RenderManager.h"
 
-#include "Utils/LogUtil.hpp"
+#include "Utils/LogUtil.h"
 
 LogicalManager* LogicalManager::pInstance = nullptr;
 
@@ -18,6 +18,16 @@ void LogicalManager::onLogicalInit()
     }
 }
 
+void LogicalManager::onMouseUpdate(double x, double y)
+{
+    mainCamera.processMouse(x, y);
+}
+
+void LogicalManager::onScrollUpdate(double x, double y)
+{
+    mainCamera.processScroll(y);
+}
+
 void LogicalManager::initNewTrigger(Event event, EventTrigger trigger)
 {
     eventBus.insert(std::make_pair(event.getEventName(), trigger));
@@ -26,6 +36,11 @@ void LogicalManager::initNewTrigger(Event event, EventTrigger trigger)
 void LogicalManager::tryTriggerEvent(std::shared_ptr<Event> event)
 {
     pendingTriggerList.push(event);
+}
+
+Camera * LogicalManager::getMainCamera()
+{
+    return &mainCamera;
 }
 
 LogicalManager * LogicalManager::getInstance()
@@ -42,9 +57,15 @@ void LogicalManager::onLogicalWork()
 #endif
     while (!AppFrame::getInstance()->getFrameTerminate())
     {
+        timer.Tick();
+        float currentTime = timer.getAccumlateTime();
+        // update main camera
+        mainCamera.processInput((currentTime - lastUpdateTime));
+        lastUpdateTime = timer.getAccumlateTime();
+        // check pending size
         size_t pendingSize = pendingTriggerList.size();
         if (pendingSize == 0)
-            return;
+            continue;
 
         int lastIndex = pendingSize - 1;
 

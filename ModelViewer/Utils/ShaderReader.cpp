@@ -1,7 +1,7 @@
 #include<iostream>
 #include "ShaderReader.h"
 #include<string>
-#include "LogUtil.hpp"
+#include "LogUtil.h"
 #include <fstream>
 #include <sstream>
 #include <glfw/glfw3.h>

@@ -11,7 +11,7 @@
 #include "RenderManager.h"
 #include "LogicalManager.h"
 
-#include "Utils/LogUtil.hpp"
+#include "Utils/LogUtil.h"
 
 void testTrigger(Event& event)
 {
@@ -64,16 +64,22 @@ void UIManager::RenderLoaderPanel()
             {
                 RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_NEW_MODEL, filePath));
 
+                Camera* camera = LogicalManager::getInstance()->getMainCamera();
+
+                glm::mat4 matrix;
+                matrix = glm::translate(matrix, glm::vec3(0.0));
+
+
+                // send mvp matrix
                 static UniformData mvpMatrix;
                 mvpMatrix.attrName = "mvp";
-                mvpMatrix.shaderName = "default";
-
-                mvpMatrix.value.matrix5 = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
+                mvpMatrix.value.matrix5 = camera->getProjectionMatrix() * camera->getViewMatrix() * matrix ;
                 mvpMatrix.valueIndex = 5;
 
                 RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_SEND_UNIFORM_DATA, &mvpMatrix));
 
                 static RenderData data;
+                data.shaderName = "default";
                 data.modelName = filePath;
                 RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_RENDER_MODEL, &data, true));
             }

@@ -4,7 +4,7 @@
 #include "RenderData.h"
 #include "Events/Event.h"
 
-#include "Utils/LogUtil.hpp"
+#include "Utils/LogUtil.h"
 namespace RenderEvents {
 
     template<class T> T* getEventData(Event& event)

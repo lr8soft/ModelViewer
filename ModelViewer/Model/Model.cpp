@@ -7,7 +7,7 @@
 #include "Model.h"
 
 #include "../Utils/ImageLoader.h"
-#include "../Utils/LogUtil.hpp"
+#include "../Utils/LogUtil.h"
 Model::Model(const std::string& path) : modelPath(path)
 {
 }

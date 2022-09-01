@@ -1,11 +1,12 @@
-#include "Camera.h"
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "AppFrame.h"
 
-#include "Utils/LogUtil.hpp"
+#include "AppFrame.h"
+#include "Camera.h"
+
+#include "Utils/LogUtil.h"
 void Camera::processInput(float deltaTime)
 {
 	GLFWwindow* window = AppFrame::getInstance()->getScreen();
@@ -13,14 +14,23 @@ void Camera::processInput(float deltaTime)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		Position += Front * velocity;
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		Position -= Front * velocity;
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		Position -= Right * velocity;
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		Position += Right * velocity;
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    {
+        Position += Front * velocity;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        Position -= Front * velocity;
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        Position -= Right * velocity;
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    {
+        Position += Right * velocity;
+    }
 }
 
 void Camera::processMouse(float xpos, float ypos)
