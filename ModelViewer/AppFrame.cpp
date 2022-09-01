@@ -37,11 +37,12 @@ void AppFrame::FramePos(GLFWwindow * screen, int x, int y)
 }
 void AppFrame::FrameCurseUpdate(GLFWwindow * screen, double x, double y)
 {
+    LogicalManager::getInstance()->onMouseUpdate(x, y);
 
 }
 void AppFrame::FrameScrollUpdate(GLFWwindow * screen, double x, double y)
 {
-
+    LogicalManager::getInstance()->onScrollUpdate(x, y);
 }
 
 AppFrame * AppFrame::getInstance()

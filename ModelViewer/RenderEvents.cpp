@@ -1,6 +1,8 @@
 #include <gl3w/gl3w.h>
 
+#include "Camera.h"
 #include "RenderEvents.h"
+#include "LogicalManager.h"
 #include "ModelManager.h"
 #include "ShaderManager.h"
 
@@ -41,6 +43,28 @@ void RenderEvents::OnSendUniformData(Event & event)
     default:
         LogUtil::printError("Wrong uniform type!"); break;
     }
+}
+
+void RenderEvents::OnSendCameraUniformData(Event & event)
+{
+    const char* shaderName = getEventData<const char>(event);
+    GLuint shaderId;
+    if (shaderName == nullptr)
+    {
+        shaderId = ShaderManager::getInstance()->bindProgram("default");
+    }
+    else 
+    {
+        shaderId = ShaderManager::getInstance()->bindProgram(shaderName);
+    }
+
+    Camera* camera = LogicalManager::getInstance()->getMainCamera();
+
+    glm::mat4 viewMat = camera->getViewMatrix();
+    glm::mat4 projectionMat = camera->getProjectionMatrix();
+
+    glUniformMatrix4fv(glGetUniformLocation(shaderId, "view"), 1, false, glm::value_ptr(viewMat));
+    glUniformMatrix4fv(glGetUniformLocation(shaderId, "projection"), 1, false, glm::value_ptr(projectionMat));
 }
 
 

@@ -29,13 +29,16 @@ void RenderManager::OnInit()
 
 void RenderManager::OnEventInit()
 {
+    // Regist render event
     initNewTrigger(Event(EVENT_LOAD_NEW_MODEL), RenderEvents::OnInitModel);
     initNewTrigger(Event(EVENT_RENDER_MODEL), RenderEvents::OnRenderModel);
     initNewTrigger(Event(EVENT_LOAD_SHADER), RenderEvents::OnLoadShader);
     initNewTrigger(Event(EVENT_SEND_UNIFORM_DATA), RenderEvents::OnSendUniformData);
+    initNewTrigger(Event(EVENT_SEND_UNIFORM_CAMERA_DATA), RenderEvents::OnSendCameraUniformData);
 
-    static ShaderData data { "default", "Assets/default.vert", "Assets/default.frag" };
-    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &data));
+    // Regist shaders
+    static ShaderData defaultShader { "default", "Assets/default.vert", "Assets/default.frag" };
+    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &defaultShader));
 }
 
 void RenderManager::OnRender()
@@ -97,4 +100,9 @@ void RenderManager::initNewTrigger(Event event, EventTrigger trigger)
 void RenderManager::tryTriggerEvent(std::shared_ptr<Event> event)
 {
     pendingTriggerList.push(event);
+}
+
+void RenderManager::tryTriggerEvent(const std::string & eventName, const void * const eventData, bool ongoing)
+{
+    pendingTriggerList.push(std::make_shared<Event>(eventName, eventData, ongoing));
 }

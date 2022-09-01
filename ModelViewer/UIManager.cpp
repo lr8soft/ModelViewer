@@ -72,11 +72,12 @@ void UIManager::RenderLoaderPanel()
 
                 // send mvp matrix
                 static UniformData mvpMatrix;
-                mvpMatrix.attrName = "mvp";
-                mvpMatrix.value.matrix5 = camera->getProjectionMatrix() * camera->getViewMatrix() * matrix ;
+                mvpMatrix.attrName = "model";
+                mvpMatrix.value.matrix5 = matrix ;
                 mvpMatrix.valueIndex = 5;
 
                 RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_SEND_UNIFORM_DATA, &mvpMatrix));
+                RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_UNIFORM_CAMERA_DATA, "default", true);
 
                 static RenderData data;
                 data.shaderName = "default";

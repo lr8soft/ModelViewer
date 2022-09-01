@@ -8,14 +8,16 @@ class Event {
 protected:
     bool isEventCancel = false;
     bool isOngoing = false;
+    bool isUniqueEvent = false;
     std::string eventName;
     const void* const eventData;
 public:
-    Event(const std::string name, const void* const data = nullptr, bool ongoing = false): eventName(name),
-        eventData(data) , isOngoing(ongoing) {}
+    Event(const std::string name, const void* const data = nullptr, bool ongoing = false, bool unique = false): eventName(name),
+        eventData(data) , isOngoing(ongoing) , isUniqueEvent(unique) {}
 
     bool isCancel() { return isEventCancel; }
     bool isOngoingEvent() { return isOngoing; }
+    bool isUnique() { return isUniqueEvent; }
     void setIsCancel(bool value) { isEventCancel = value; }
 
     std::string getEventName() { return eventName; }
