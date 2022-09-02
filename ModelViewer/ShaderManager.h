@@ -2,6 +2,7 @@
 #ifndef _SHADER_MANAGER_H_
 #define _SHADER_MANAGER_H_
 #include <map>
+#include <vector>
 #include <string>
 #include <glcorearb.h>
 
@@ -11,6 +12,7 @@ private:
     static ShaderManager* pInstance;
 
     std::map<std::string, GLuint> shaderGroup;
+    std::vector<const char*> recordShaders;
 
     ShaderManager();
 public:
@@ -21,6 +23,8 @@ public:
     GLuint bindProgram(ShaderData& data);
 
     bool deleteProgram(ShaderData& data);
+
+    const char** getAllShadersName(int* shaderCount);
 
     static ShaderManager * getInstance();
 

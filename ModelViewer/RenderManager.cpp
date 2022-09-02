@@ -23,7 +23,7 @@ void RenderManager::OnInit()
 {
     GLFWwindow* screen = AppFrame::getInstance()->getScreen();
 
-    UIManager::OnRenderInit(screen);
+    UIManager::OnInit(screen);
     OnEventInit();
 }
 

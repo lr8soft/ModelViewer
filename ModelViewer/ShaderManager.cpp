@@ -31,6 +31,7 @@ GLuint ShaderManager::bindProgram(ShaderData & data)
 
         programHandle = shader.getProgramHandle();
         shaderGroup.insert(std::make_pair(data.shaderName, programHandle));
+        recordShaders.push_back(data.shaderName.c_str());
         glUseProgram(programHandle);
     }
     return programHandle;
@@ -46,6 +47,12 @@ bool ShaderManager::deleteProgram(ShaderData & data)
         return true;
     }
     return false;
+}
+
+const char ** ShaderManager::getAllShadersName(int * shaderCount)
+{
+    *shaderCount = recordShaders.size();
+    return &recordShaders[0];
 }
 
 

@@ -6,9 +6,11 @@ struct GLFWwindow;
 class UIManager {
 private:
     static void RenderLoaderPanel();
+    static void RenderShaderSelectorPanel();
 public:
-    static void OnRenderInit(GLFWwindow* pScreen);
+    static void OnInit(GLFWwindow* pScreen);
     static void OnRenderUI();
+    static void OnFinalize();
 
 };
 

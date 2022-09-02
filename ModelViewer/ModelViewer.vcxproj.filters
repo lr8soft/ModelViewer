@@ -30,7 +30,6 @@
     <ClCompile Include="Utils\Timer.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="EObject.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Libs\imgui\imgui.cpp">
       <Filter>Libs\imgui</Filter>
@@ -78,7 +77,6 @@
     <ClInclude Include="Utils\Timer.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="EObject.h" />
     <ClInclude Include="Utils\MathUtils.h">
       <Filter>Utils</Filter>
     </ClInclude>

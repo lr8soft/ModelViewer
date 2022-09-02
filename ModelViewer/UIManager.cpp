@@ -10,6 +10,7 @@
 #include "RenderData.h"
 #include "RenderManager.h"
 #include "LogicalManager.h"
+#include "ShaderManager.h"
 
 #include "Utils/LogUtil.h"
 
@@ -18,7 +19,7 @@ void testTrigger(Event& event)
     LogUtil::printError(event.getEventName() + " is click.");
 }
 
-void UIManager::OnRenderInit(GLFWwindow* pScreen)
+void UIManager::OnInit(GLFWwindow* pScreen)
 {
     ImGui::CreateContext();     // Setup Dear ImGui context
     ImGui::StyleColorsDark();       // Setup Dear ImGui style
@@ -96,6 +97,27 @@ void UIManager::RenderLoaderPanel()
 
 }
 
+void UIManager::RenderShaderSelectorPanel()
+{
+    static bool isVisable = true;
+    if (isVisable)
+    {
+        ImGui::Begin("Select Shader", &isVisable);
+        {
+            int shadersCount = 0;
+            const char** shaderNames = ShaderManager::getInstance()->getAllShadersName(&shadersCount);
+
+            int currentid = -1;
+            //static
+            if (ImGui::ListBox("##", &currentid, shaderNames, shadersCount))
+            {
+                LogUtil::printInfo(std::to_string(currentid));
+            }
+        }
+        ImGui::End();
+    }
+}
+
 void UIManager::OnRenderUI()
 {
     ImGui_ImplOpenGL3_NewFrame();
@@ -103,7 +125,15 @@ void UIManager::OnRenderUI()
     ImGui::NewFrame();
 
     RenderLoaderPanel();
+    RenderShaderSelectorPanel();
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void UIManager::OnFinalize()
+{
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 }
