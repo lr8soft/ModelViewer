@@ -2,7 +2,6 @@
 #ifndef _RENDER_MANAGER_H_
 #define _RENDER_MANAGER_H_
 #include <map>
-
 #include "Events/Event.h"
 #include "Utils/SharedQueue.hpp"
 
@@ -16,13 +15,13 @@ private:
 
     SharedQueue<std::shared_ptr<Event>> pendingTriggerList;
 
+
     RenderManager();
 
     void OnEventInit();
     void OnEventBusUpdate();
 
 public:
-
     static RenderManager* getInstance();
 
     void OnInit();

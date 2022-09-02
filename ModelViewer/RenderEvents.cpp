@@ -6,6 +6,7 @@
 #include "ModelManager.h"
 #include "ShaderManager.h"
 
+std::multimap<std::string, Event&> RenderEvents::PublicRenderData::renderingModels;
 
 void RenderEvents::OnInitModel(Event& event)
 {
@@ -47,9 +48,7 @@ void RenderEvents::OnSendUniformData(Event & event)
 
 void RenderEvents::OnSendCameraUniformData(Event & event)
 {
-    const char* shaderName = getEventData<const char>(event);
     GLuint shaderId = ShaderManager::getInstance()->getCurrentShaderId();
-
     Camera* camera = LogicalManager::getInstance()->getMainCamera();
 
     glm::mat4 viewMat = camera->getViewMatrix();
@@ -69,4 +68,24 @@ void RenderEvents::OnRenderModel(Event& event)
         ShaderManager::getInstance()->getCurrentShaderId(),
         true,
         renderData->textureStartIndex);
+
+    auto beg = PublicRenderData::renderingModels.lower_bound(renderData->modelName);
+    auto end = PublicRenderData::renderingModels.upper_bound(renderData->modelName);
+    // check have storaged the render event
+    bool isAppear = false;
+    while (beg != end)
+    {
+        if (&(beg->second) == &event)
+        {
+            isAppear = true;
+            break;
+        }
+        ++beg;
+    }
+
+    if (!isAppear)
+    {
+        PublicRenderData::renderingModels.insert(std::pair<std::string, Event&>(renderData->modelName, event));
+    }
+
 }

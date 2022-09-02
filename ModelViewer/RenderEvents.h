@@ -1,11 +1,17 @@
 #pragma once
 #ifndef _RENDER_EVENTS_H_
 #define _RENDER_EVENTS_H_
+#include <string>
+#include <map>
 #include "RenderData.h"
 #include "Events/Event.h"
 
 #include "Utils/LogUtil.h"
 namespace RenderEvents {
+    class PublicRenderData {
+    public:
+        static std::multimap<std::string, Event&> renderingModels;
+    };
 
     template<class T> T* getEventData(Event& event)
     {

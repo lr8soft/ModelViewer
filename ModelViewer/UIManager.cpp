@@ -36,43 +36,54 @@ void UIManager::RenderLoaderPanel()
     int bigBtnWidth = 100, bigBtnHeight = 30;
     if (isVisable)
     {
-        ImGui::Begin("Open new model...", &isVisable);
+        ImGui::Begin("Model Window", &isVisable);
         {
-            if (ImGui::Button("Select..."))
+            // Tab Open new model
+            if(ImGui::TreeNode("Open New Model..."))
             {
-                bool bResult = InteractionUtil::openNewFile(filePath);
+                if (ImGui::Button("Select..."))
+                {
+                    InteractionUtil::openNewFile(filePath);
+                }
+                ImGui::SameLine();
+                ImGui::InputText("Path", filePath, 255);
+                // load model and show
+                if (ImGui::Button("Confirm", ImVec2(bigBtnWidth, bigBtnHeight)))
+                {
+                    RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_NEW_MODEL, filePath));
+
+                    Camera* camera = LogicalManager::getInstance()->getMainCamera();
+
+                    glm::mat4 matrix;
+                    matrix = glm::translate(matrix, glm::vec3(0.0));
+
+
+                    // send mvp matrix
+                    static UniformData mvpMatrix;
+                    mvpMatrix.attrName = "model";
+                    mvpMatrix.value.matrix5 = matrix;
+                    mvpMatrix.valueIndex = 5;
+
+                    RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_SEND_UNIFORM_DATA, &mvpMatrix));
+                    RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_UNIFORM_CAMERA_DATA, nullptr, true);
+
+                    static RenderData data;
+                    data.modelName = filePath;
+                    RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_RENDER_MODEL, &data, true));
+                }
+
+                ImGui::SameLine();
+                if (ImGui::Button("ClearBtn", ImVec2(bigBtnWidth, bigBtnHeight)))
+                {
+
+                }
+                ImGui::TreePop();
             }
-            ImGui::SameLine();
-            ImGui::InputText("Path", filePath, 255);
-            // load model and show
-            if (ImGui::Button("Confirm", ImVec2(bigBtnWidth, bigBtnHeight)))
-            {
-                RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_NEW_MODEL, filePath));
-
-                Camera* camera = LogicalManager::getInstance()->getMainCamera();
-
-                glm::mat4 matrix;
-                matrix = glm::translate(matrix, glm::vec3(0.0));
-
-
-                // send mvp matrix
-                static UniformData mvpMatrix;
-                mvpMatrix.attrName = "model";
-                mvpMatrix.value.matrix5 = matrix ;
-                mvpMatrix.valueIndex = 5;
-
-                RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_SEND_UNIFORM_DATA, &mvpMatrix));
-                RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_UNIFORM_CAMERA_DATA, "default", true);
-
-                static RenderData data;
-                data.modelName = filePath;
-                RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_RENDER_MODEL, &data, true));
-            }
-
-            ImGui::SameLine();
-            if (ImGui::Button("Clear", ImVec2(bigBtnWidth, bigBtnHeight)))
+            // Tab current model list
+            if (ImGui::TreeNode("Scene Collection"))
             {
 
+                ImGui::TreePop();
             }
         }
         ImGui::End();
