@@ -3,6 +3,7 @@
 #define _RENDER_EVENTS_H_
 #include <string>
 #include <map>
+#include <mutex>
 #include "RenderData.h"
 #include "Events/Event.h"
 
@@ -11,6 +12,7 @@ namespace RenderEvents {
     class PublicRenderData {
     public:
         static std::multimap<std::string, Event&> renderingModels;
+        static std::mutex modelMutex;
     };
 
     template<class T> T* getEventData(Event& event)
@@ -31,7 +33,7 @@ namespace RenderEvents {
     void OnLoadShader(Event& event);
     //  EVENT_RENDER_MODEL, eventData == RenderData
     void OnRenderModel(Event& event);
-
+    //  EVENT_STOP_RENDER_MODEL, eventData == RenderData
     void OnRenderCancel(Event& event);
 
     // EVENT_SEND_UNIFORM_DATA, eventData == UniformData*

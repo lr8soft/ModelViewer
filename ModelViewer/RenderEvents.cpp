@@ -7,6 +7,7 @@
 #include "ShaderManager.h"
 
 std::multimap<std::string, Event&> RenderEvents::PublicRenderData::renderingModels;
+std::mutex RenderEvents::PublicRenderData::modelMutex;
 
 void RenderEvents::OnInitModel(Event& event)
 {
@@ -85,11 +86,33 @@ void RenderEvents::OnRenderModel(Event& event)
 
     if (!isAppear)
     {
+        std::lock_guard<std::mutex> gurad(PublicRenderData::modelMutex);
         PublicRenderData::renderingModels.insert(std::pair<std::string, Event&>(renderData->modelName, event));
     }
 
 }
 
-void RenderEvents::OnRenderCancel(Event & event)
+void RenderEvents::OnRenderCancel(Event& event)
 {
+    RenderData* renderData = getEventData<RenderData>(event);
+
+
+    /*auto beg = PublicRenderData::renderingModels.lower_bound(renderData->modelName);
+    auto end = PublicRenderData::renderingModels.upper_bound(renderData->modelName);
+    // check had storaged the render event
+    bool isAppear = false;
+    while (beg != end)
+    {
+        if (&(beg->second) == &event ||
+            ((event.getEventData() != nullptr) && event.getEventData() == beg->second.getEventData()))
+        {
+            std::lock_guard<std::mutex> gurad(PublicRenderData::modelMutex);
+
+            return;
+        }
+        ++beg;
+    }*/
+
+
+
 }

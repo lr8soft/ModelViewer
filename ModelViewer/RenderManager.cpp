@@ -32,6 +32,7 @@ void RenderManager::OnEventInit()
     // Regist render event
     initNewTrigger(Event(EVENT_LOAD_NEW_MODEL), RenderEvents::OnInitModel);
     initNewTrigger(Event(EVENT_RENDER_MODEL), RenderEvents::OnRenderModel);
+    initNewTrigger(Event(EVENT_STOP_RENDER_MODEL), RenderEvents::OnRenderCancel);
     initNewTrigger(Event(EVENT_LOAD_SHADER), RenderEvents::OnLoadShader);
     initNewTrigger(Event(EVENT_SEND_UNIFORM_DATA), RenderEvents::OnSendUniformData);
     initNewTrigger(Event(EVENT_SEND_UNIFORM_CAMERA_DATA), RenderEvents::OnSendCameraUniformData);
