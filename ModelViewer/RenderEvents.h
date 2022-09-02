@@ -32,6 +32,8 @@ namespace RenderEvents {
     //  EVENT_RENDER_MODEL, eventData == RenderData
     void OnRenderModel(Event& event);
 
+    void OnRenderCancel(Event& event);
+
     // EVENT_SEND_UNIFORM_DATA, eventData == UniformData*
     void OnSendUniformData(Event& event);
     // EVENT_SEND_UNIFORM_CAMERA_DATA, eventData == shader path (const char*)

@@ -58,7 +58,6 @@ void RenderEvents::OnSendCameraUniformData(Event & event)
     glUniformMatrix4fv(glGetUniformLocation(shaderId, "projection"), 1, false, glm::value_ptr(projectionMat));
 }
 
-
 void RenderEvents::OnRenderModel(Event& event)
 {
     RenderData* renderData = getEventData<RenderData>(event);
@@ -71,11 +70,12 @@ void RenderEvents::OnRenderModel(Event& event)
 
     auto beg = PublicRenderData::renderingModels.lower_bound(renderData->modelName);
     auto end = PublicRenderData::renderingModels.upper_bound(renderData->modelName);
-    // check have storaged the render event
+    // check had storaged the render event
     bool isAppear = false;
     while (beg != end)
     {
-        if (&(beg->second) == &event)
+        if (&(beg->second) == &event ||
+            ((event.getEventData()!= nullptr) && event.getEventData() == beg->second.getEventData()) )
         {
             isAppear = true;
             break;
@@ -88,4 +88,8 @@ void RenderEvents::OnRenderModel(Event& event)
         PublicRenderData::renderingModels.insert(std::pair<std::string, Event&>(renderData->modelName, event));
     }
 
+}
+
+void RenderEvents::OnRenderCancel(Event & event)
+{
 }
