@@ -62,6 +62,11 @@ std::string ShaderManager::getCurrentShaderName()
     return currentShaderName;
 }
 
+GLuint ShaderManager::getCurrentShaderId()
+{
+    return shaderGroup[currentShaderName];
+}
+
 GLuint ShaderManager::getShaderId(std::string shaderName)
 {
     if (shaderGroup.find(shaderName) != shaderGroup.end())

@@ -38,7 +38,10 @@ void RenderManager::OnEventInit()
 
     // Regist shaders
     static ShaderData defaultShader { "default", "Assets/default.vert", "Assets/default.frag" };
+    static ShaderData defaultShaderNoTex { "defaultNoTexture", "Assets/default.vert", "Assets/default_no_texture.frag" };
+
     tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &defaultShader));
+    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &defaultShaderNoTex));
 }
 
 void RenderManager::OnRender()

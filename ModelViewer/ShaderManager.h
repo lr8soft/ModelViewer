@@ -29,6 +29,7 @@ public:
     const char** getAllShadersName(int* shaderCount);
 
     std::string getCurrentShaderName();
+    GLuint getCurrentShaderId();
     GLuint getShaderId(std::string shaderName);
 
     static ShaderManager * getInstance();

@@ -65,7 +65,6 @@ void UIManager::RenderLoaderPanel()
                 RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_UNIFORM_CAMERA_DATA, "default", true);
 
                 static RenderData data;
-                data.shaderName = "default";
                 data.modelName = filePath;
                 RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_RENDER_MODEL, &data, true));
             }
@@ -101,10 +100,7 @@ void UIManager::RenderShaderSelectorPanel()
             const char** shaderNames = ShaderManager::getInstance()->getAllShadersName(&shadersCount);
 
             ImGui::Text("Available shaders:");
-            if (ImGui::ListBox("##", &selectedShaderIndex, shaderNames, shadersCount))
-            {
-                LogUtil::printInfo(std::to_string(selectedShaderIndex));
-            }
+            ImGui::ListBox("##", &selectedShaderIndex, shaderNames, shadersCount);
 
             ImGui::SameLine();
             if (ImGui::Button("Apply shader"))

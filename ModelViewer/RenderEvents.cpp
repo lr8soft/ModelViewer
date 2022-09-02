@@ -24,7 +24,7 @@ void RenderEvents::OnLoadShader(Event & event)
 void RenderEvents::OnSendUniformData(Event & event)
 {
     UniformData* data = getEventData<UniformData>(event);
-    GLuint shaderId = ShaderManager::getInstance()->bindProgram(data->shaderName);
+    GLuint shaderId = ShaderManager::getInstance()->getCurrentShaderId();
 
     switch (data->valueIndex)
     {
@@ -48,15 +48,7 @@ void RenderEvents::OnSendUniformData(Event & event)
 void RenderEvents::OnSendCameraUniformData(Event & event)
 {
     const char* shaderName = getEventData<const char>(event);
-    GLuint shaderId;
-    if (shaderName == nullptr)
-    {
-        shaderId = ShaderManager::getInstance()->bindProgram("default");
-    }
-    else 
-    {
-        shaderId = ShaderManager::getInstance()->bindProgram(shaderName);
-    }
+    GLuint shaderId = ShaderManager::getInstance()->getCurrentShaderId();
 
     Camera* camera = LogicalManager::getInstance()->getMainCamera();
 
@@ -74,7 +66,7 @@ void RenderEvents::OnRenderModel(Event& event)
 
     ModelManager::getInstance()->RenderModel(
         renderData->modelName,
-        ShaderManager::getInstance()->bindProgram(renderData->shaderName),
+        ShaderManager::getInstance()->getCurrentShaderId(),
         true,
         renderData->textureStartIndex);
 }

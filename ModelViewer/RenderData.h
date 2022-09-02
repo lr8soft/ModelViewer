@@ -15,7 +15,6 @@ public:
 
 struct RenderData {
     std::string modelName;
-    std::string shaderName = "default";
     unsigned int textureStartIndex = 0;
 };
 
@@ -37,7 +36,6 @@ struct UniformValue {
 
 struct UniformData {
     std::string attrName;
-    std::string shaderName = "default";
     UniformValue value;
     unsigned int valueIndex = 0;
 };
