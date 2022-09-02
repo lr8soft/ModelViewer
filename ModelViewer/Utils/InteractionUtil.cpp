@@ -1,10 +1,10 @@
 #include <Windows.h>
 #include <commdlg.h>
 
-#include "FileOpenUtil.h"
+#include "InteractionUtil.h"
 #include "LogUtil.h"
 
-wchar_t* FileOpenUtil::ConvertCharToLPWSTR(const char * szString)
+wchar_t* InteractionUtil::ConvertCharToLPWSTR(const char * szString)
 {
     int dwLen = strlen(szString) + 1;
     int nwLen = MultiByteToWideChar(CP_ACP, 0, szString, dwLen, NULL, 0);
@@ -13,7 +13,7 @@ wchar_t* FileOpenUtil::ConvertCharToLPWSTR(const char * szString)
     return lpszPath;
 }
 
-bool FileOpenUtil::openNewFile(const char* filePath, const char* title, const char * fileFilter)
+bool InteractionUtil::openNewFile(const char* filePath, const char* title, const char * fileFilter)
 {
     OPENFILENAMEA openFileName;
     char szFile[260];
@@ -38,5 +38,11 @@ bool FileOpenUtil::openNewFile(const char* filePath, const char* title, const ch
 #if _DEBUG
     LogUtil::printInfo("Open file operation canceled.");
 #endif
+    return false;
+}
+
+bool InteractionUtil::showMessageBox(const char * info, const char * title, unsigned int flag)
+{
+    MessageBoxA(NULL, info, title, flag);
     return false;
 }

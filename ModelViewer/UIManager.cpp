@@ -12,7 +12,7 @@
 #include "LogicalManager.h"
 #include "ShaderManager.h"
 
-#include "Utils/FileOpenUtil.h"
+#include "Utils/InteractionUtil.h"
 #include "Utils/LogUtil.h"
 
 void testTrigger(Event& event)
@@ -40,7 +40,7 @@ void UIManager::RenderLoaderPanel()
         {
             if (ImGui::Button("Select..."))
             {
-                bool bResult = FileOpenUtil::openNewFile(filePath);
+                bool bResult = InteractionUtil::openNewFile(filePath);
             }
             ImGui::SameLine();
             ImGui::InputText("Path", filePath, 255);
@@ -83,6 +83,7 @@ void UIManager::RenderLoaderPanel()
 
 void UIManager::RenderShaderSelectorPanel()
 {
+    static char newShaderName[20] = { 0 };
     static char vertexShader[260] = { 0 };
     static char fragShader[260] = { 0 };
     static int selectedShaderIndex = -1;
@@ -108,32 +109,78 @@ void UIManager::RenderShaderSelectorPanel()
             ImGui::SameLine();
             if (ImGui::Button("Apply shader"))
             {
+                if (selectedShaderIndex >= 0)
+                {
+                    const char* targetShaderName = *(shaderNames + selectedShaderIndex);
 
+                    static ShaderData shader;
+                    shader.shaderName = targetShaderName;
+
+                    RenderManager::getInstance()->tryTriggerEvent(EVENT_LOAD_SHADER, &shader);
+                }
             }
 
             if (ImGui::TreeNode("Open New Shader"))
             {
                 {
-                    if (ImGui::Button("Select Vertex Shader"))
-                    {
-                        FileOpenUtil::openNewFile(vertexShader, "Open Vertex Shader", "Vertex Shader(*.vert)\0*.vert\0All Files(*.*)\0*.*\0\0");
-                    }
-                    ImGui::SameLine();
-                    ImGui::InputText("Vertex Shader", vertexShader, 255);
+                    ImGui::InputText("Shader  Name", newShaderName, IM_ARRAYSIZE(newShaderName));
                 }
                 {
-                    if (ImGui::Button("Select Fragment Shader"))
+                    if (ImGui::Button("Select VS"))
                     {
-                        FileOpenUtil::openNewFile(fragShader, "Open Fragment Shader", "Fragment Shader(*.frag)\0*.frag\0All Files(*.*)\0*.*\0\0");
+                        InteractionUtil::openNewFile(vertexShader, "Open Vertex Shader", "Vertex Shader(*.vert)\0*.vert\0All Files(*.*)\0*.*\0\0");
                     }
                     ImGui::SameLine();
-                    ImGui::InputText("Fragment Shader", fragShader, 255);
+                    ImGui::InputText("Vertex Shader", vertexShader, IM_ARRAYSIZE(vertexShader));
+                }
+                {
+                    if (ImGui::Button("Select FS"))
+                    {
+                        InteractionUtil::openNewFile(fragShader, "Open Fragment Shader", "Fragment Shader(*.frag)\0*.frag\0All Files(*.*)\0*.*\0\0");
+                    }
+                    ImGui::SameLine();
+                    ImGui::InputText("Fragment Shader", fragShader, IM_ARRAYSIZE(fragShader));
                 }
 
                 if (ImGui::Button("Load Shader")) 
                 {
-                
+                    do 
+                    {
+                        if (strlen(newShaderName) == 0)
+                        {
+                            InteractionUtil::showMessageBox("No shader name!", "Error");
+                            break;
+                        }
+
+                        if (strlen(vertexShader) == 0)
+                        {
+                            InteractionUtil::showMessageBox("No vertex shader!", "Error");
+                            break;
+                        }
+
+                        if (strlen(fragShader) == 0)
+                        {
+                            InteractionUtil::showMessageBox("No fragment shader!", "Error");
+                            break;
+                        }
+
+                        static ShaderData newShader;
+                        newShader.shaderName = newShaderName;
+                        newShader.vertexShader = vertexShader;
+                        newShader.fragShader = fragShader;
+
+                        RenderManager::getInstance()->tryTriggerEvent(EVENT_LOAD_SHADER, &newShader);
+                    } while (0);
+
                 }
+                ImGui::SameLine();
+                if (ImGui::Button("Clear"))
+                {
+                    memset(newShaderName, 0, sizeof(newShaderName));
+                    memset(vertexShader, 0, sizeof(vertexShader));
+                    memset(fragShader, 0, sizeof(fragShader));
+                }
+
                 ImGui::TreePop();
             }
         }
