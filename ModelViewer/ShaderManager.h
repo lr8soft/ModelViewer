@@ -14,6 +14,8 @@ private:
     std::map<std::string, GLuint> shaderGroup;
     std::vector<const char*> recordShaders;
 
+    std::string currentShaderName;
+
     ShaderManager();
 public:
     ~ShaderManager();
@@ -25,6 +27,9 @@ public:
     bool deleteProgram(ShaderData& data);
 
     const char** getAllShadersName(int* shaderCount);
+
+    std::string getCurrentShaderName();
+    GLuint getShaderId(std::string shaderName);
 
     static ShaderManager * getInstance();
 

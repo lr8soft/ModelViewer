@@ -8,10 +8,11 @@ ShaderManager::~ShaderManager() {}
 
 GLuint ShaderManager::bindProgram(std::string shaderName)
 {
-    GLuint programHandle = 0;
-    if (shaderGroup.find(shaderName) != shaderGroup.end())
+    GLuint programHandle = getShaderId(shaderName);
+    if (programHandle != 0)
     {
         programHandle = shaderGroup[shaderName];
+        currentShaderName = shaderName;
         glUseProgram(programHandle);
     }
     return programHandle;
@@ -32,6 +33,7 @@ GLuint ShaderManager::bindProgram(ShaderData & data)
         programHandle = shader.getProgramHandle();
         shaderGroup.insert(std::make_pair(data.shaderName, programHandle));
         recordShaders.push_back(data.shaderName.c_str());
+        currentShaderName = data.shaderName;
         glUseProgram(programHandle);
     }
     return programHandle;
@@ -53,6 +55,20 @@ const char ** ShaderManager::getAllShadersName(int * shaderCount)
 {
     *shaderCount = recordShaders.size();
     return &recordShaders[0];
+}
+
+std::string ShaderManager::getCurrentShaderName()
+{
+    return currentShaderName;
+}
+
+GLuint ShaderManager::getShaderId(std::string shaderName)
+{
+    if (shaderGroup.find(shaderName) != shaderGroup.end())
+    {
+        return shaderGroup[shaderName];
+    }
+    return 0;
 }
 
 

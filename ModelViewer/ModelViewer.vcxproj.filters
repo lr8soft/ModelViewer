@@ -68,6 +68,9 @@
     <ClCompile Include="Utils\LogUtil.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\FileOpenUtil.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppFrame.h" />
@@ -135,6 +138,9 @@
     <ClInclude Include="RenderData.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Utils\LogUtil.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\FileOpenUtil.h">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>

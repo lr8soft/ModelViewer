@@ -12,6 +12,7 @@
 #include "LogicalManager.h"
 #include "ShaderManager.h"
 
+#include "Utils/FileOpenUtil.h"
 #include "Utils/LogUtil.h"
 
 void testTrigger(Event& event)
@@ -39,24 +40,7 @@ void UIManager::RenderLoaderPanel()
         {
             if (ImGui::Button("Select..."))
             {
-                OPENFILENAMEA openFileName;
-                char szFile[260];
-                ZeroMemory(&openFileName, sizeof(openFileName));
-                openFileName.lStructSize = sizeof(openFileName);
-                openFileName.hwndOwner = NULL;
-                openFileName.lpstrFile = szFile;
-                openFileName.lpstrFile[0] = '\0';
-                openFileName.nMaxFile = sizeof(szFile);
-                openFileName.lpstrFilter = "All Files(*.*)\0*.*\0\0";
-                openFileName.nFilterIndex = 1;
-                openFileName.lpstrFileTitle = NULL;
-                openFileName.nMaxFileTitle = 0;
-                openFileName.lpstrInitialDir = NULL;
-                openFileName.Flags = 0;
-                if (GetOpenFileNameA(&openFileName) == TRUE)
-                {
-                    memcpy_s(filePath, 260, openFileName.lpstrFile, 260);
-                }
+                bool bResult = FileOpenUtil::openNewFile(filePath);
             }
             ImGui::SameLine();
             ImGui::InputText("Path", filePath, 255);
@@ -99,19 +83,58 @@ void UIManager::RenderLoaderPanel()
 
 void UIManager::RenderShaderSelectorPanel()
 {
+    static char vertexShader[260] = { 0 };
+    static char fragShader[260] = { 0 };
+    static int selectedShaderIndex = -1;
+
     static bool isVisable = true;
     if (isVisable)
     {
         ImGui::Begin("Select Shader", &isVisable);
         {
+            ImGui::Text("Current Shader:");
+            ImGui::SameLine();
+            ImGui::Text(ShaderManager::getInstance()->getCurrentShaderName().c_str());
+
             int shadersCount = 0;
             const char** shaderNames = ShaderManager::getInstance()->getAllShadersName(&shadersCount);
 
-            int currentid = -1;
-            //static
-            if (ImGui::ListBox("##", &currentid, shaderNames, shadersCount))
+            ImGui::Text("Available shaders:");
+            if (ImGui::ListBox("##", &selectedShaderIndex, shaderNames, shadersCount))
             {
-                LogUtil::printInfo(std::to_string(currentid));
+                LogUtil::printInfo(std::to_string(selectedShaderIndex));
+            }
+
+            ImGui::SameLine();
+            if (ImGui::Button("Apply shader"))
+            {
+
+            }
+
+            if (ImGui::TreeNode("Open New Shader"))
+            {
+                {
+                    if (ImGui::Button("Select Vertex Shader"))
+                    {
+                        FileOpenUtil::openNewFile(vertexShader, "Open Vertex Shader", "Vertex Shader(*.vert)\0*.vert\0All Files(*.*)\0*.*\0\0");
+                    }
+                    ImGui::SameLine();
+                    ImGui::InputText("Vertex Shader", vertexShader, 255);
+                }
+                {
+                    if (ImGui::Button("Select Fragment Shader"))
+                    {
+                        FileOpenUtil::openNewFile(fragShader, "Open Fragment Shader", "Fragment Shader(*.frag)\0*.frag\0All Files(*.*)\0*.*\0\0");
+                    }
+                    ImGui::SameLine();
+                    ImGui::InputText("Fragment Shader", fragShader, 255);
+                }
+
+                if (ImGui::Button("Load Shader")) 
+                {
+                
+                }
+                ImGui::TreePop();
             }
         }
         ImGui::End();
