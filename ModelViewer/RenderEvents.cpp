@@ -59,6 +59,8 @@ void RenderEvents::OnSendCameraUniformData(Event & event)
 
 void RenderEvents::OnRenderModel(Event& event)
 {
+    if (event.isCancel()) return;
+
     RenderData* renderData = getEventData<RenderData>(event);
 
     ModelManager::getInstance()->RenderModel(
@@ -99,16 +101,15 @@ void RenderEvents::OnRenderCancel(Event& event)
     auto modelIter = PublicRenderData::renderingModelEvents.find(modelName);
     if (modelIter != PublicRenderData::renderingModelEvents.end())
     {
+        modelIter->second.setIsCancel(true);
         modelIter->second.setIsGoging(false);
         PublicRenderData::renderingModelEvents.erase(modelIter);
 
-        for(auto var = PublicRenderData::renderingModelNames.begin(); var != PublicRenderData::renderingModelNames.end(); var++)
+        auto targetIter = std::find(
+            PublicRenderData::renderingModelNames.begin(), PublicRenderData::renderingModelNames.end(), modelName);
+        if (targetIter != PublicRenderData::renderingModelNames.end())
         {
-            if (strcmp((*var), modelName) == 0)
-            {
-                PublicRenderData::renderingModelNames.erase(var);
-                break;
-            }
+            PublicRenderData::renderingModelNames.erase(targetIter);
         }
     }
     else

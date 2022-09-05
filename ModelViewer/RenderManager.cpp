@@ -88,7 +88,7 @@ void RenderManager::OnEventBusUpdate()
         // clean Event object
         pendingTriggerList.pop();
         // add event to last
-        if (currentEvent->isOngoingEvent())
+        if (!currentEvent->isCancel() && currentEvent->isOngoingEvent())
         {
             pendingTriggerList.push(currentEvent);
         }
