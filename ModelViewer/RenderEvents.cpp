@@ -95,8 +95,6 @@ void RenderEvents::OnRenderModel(Event& event)
 void RenderEvents::OnRenderCancel(Event& event)
 {
     RenderData* renderData = getEventData<RenderData>(event);
-
-
     /*auto beg = PublicRenderData::renderingModels.lower_bound(renderData->modelName);
     auto end = PublicRenderData::renderingModels.upper_bound(renderData->modelName);
     // check had storaged the render event

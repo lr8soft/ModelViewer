@@ -18,6 +18,7 @@ AppFrame::AppFrame()
 void AppFrame::FrameResize(GLFWwindow * screen, int w, int h)
 {
     if (w > 0 && h > 0) {
+        glViewport(0, 0, w, h);
         float smallSize = w > h ? h : w;
         float absWidth = smallSize / (float)w;
         float absHeight = smallSize / (float)h;
@@ -37,7 +38,10 @@ void AppFrame::FramePos(GLFWwindow * screen, int x, int y)
 }
 void AppFrame::FrameCurseUpdate(GLFWwindow * screen, double x, double y)
 {
-    LogicalManager::getInstance()->onMouseUpdate(x, y);
+    if (glfwGetMouseButton(screen, GLFW_MOUSE_BUTTON_LEFT == GLFW_PRESS))
+    {
+        LogicalManager::getInstance()->onMouseUpdate(x, y);
+    }
 
 }
 void AppFrame::FrameScrollUpdate(GLFWwindow * screen, double x, double y)
@@ -78,7 +82,7 @@ void AppFrame::FrameInit()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, false);
+    glfwWindowHint(GLFW_RESIZABLE, true);
     glfwWindowHint(GLFW_SCALE_TO_MONITOR, false);//Auto change size
 
     pScreen = glfwCreateWindow(FrameInfo::ScreenWidth, FrameInfo::ScreenHeight, "ModelViewer", nullptr, nullptr);
