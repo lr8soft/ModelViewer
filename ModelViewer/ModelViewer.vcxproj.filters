@@ -71,6 +71,7 @@
     <ClCompile Include="Utils\InteractionUtil.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="PublicRenderData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppFrame.h" />
@@ -143,5 +144,6 @@
     <ClInclude Include="Utils\InteractionUtil.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="PublicRenderData.h" />
   </ItemGroup>
 </Project>

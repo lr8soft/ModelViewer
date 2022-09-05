@@ -6,7 +6,7 @@
 #define EVENT_LOAD_SHADER "R_EVENT_LOAD_SHADER"
 // EventData == RenderData
 #define EVENT_RENDER_MODEL "R_EVENT_RENDER_MODEL"
-// EventData == RenderData
+// EventData == model path (const char*)
 #define EVENT_STOP_RENDER_MODEL "R_EVENT_STOP_RENDER_MODEL"
 
 // EventData == UniformData*

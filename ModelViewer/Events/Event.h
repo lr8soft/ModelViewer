@@ -19,6 +19,7 @@ public:
     bool isOngoingEvent() { return isOngoing; }
     bool isUnique() { return isUniqueEvent; }
     void setIsCancel(bool value) { isEventCancel = value; }
+    void setIsGoging(bool value) { isOngoing = value; }
 
     std::string getEventName() { return eventName; }
     const void* const getEventData() { return eventData; }

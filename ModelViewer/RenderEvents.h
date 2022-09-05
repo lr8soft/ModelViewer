@@ -1,7 +1,7 @@
 #pragma once
 #ifndef _RENDER_EVENTS_H_
 #define _RENDER_EVENTS_H_
-#include <string>
+
 #include <map>
 #include <mutex>
 #include "RenderData.h"
@@ -9,11 +9,6 @@
 
 #include "Utils/LogUtil.h"
 namespace RenderEvents {
-    class PublicRenderData {
-    public:
-        static std::multimap<std::string, Event&> renderingModels;
-        static std::mutex modelMutex;
-    };
 
     template<class T> T* getEventData(Event& event)
     {
@@ -41,6 +36,8 @@ namespace RenderEvents {
     // EVENT_SEND_UNIFORM_CAMERA_DATA, eventData == shader path (const char*)
     // Send matrix "view" "projection" to target shader
     void OnSendCameraUniformData(Event& event);
+
+    const char** getAllRenderingModels(int* modelCounts);
 
 }
 

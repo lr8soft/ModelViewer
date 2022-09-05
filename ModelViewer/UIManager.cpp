@@ -9,6 +9,7 @@
 #include "UIManager.h"
 #include "RenderData.h"
 #include "RenderManager.h"
+#include "PublicRenderData.h"
 #include "LogicalManager.h"
 #include "ShaderManager.h"
 
@@ -32,6 +33,8 @@ void UIManager::RenderLoaderPanel()
 {
     static bool isVisable = true;
     static char filePath[260] = {0};
+
+    static int selectedModelIndex = -1;
 
     int bigBtnWidth = 100, bigBtnHeight = 30;
     if (isVisable)
@@ -82,6 +85,20 @@ void UIManager::RenderLoaderPanel()
             // Tab current model list
             if (ImGui::TreeNode("Scene Collection"))
             {
+                int modelsCount = 0;
+                const char** modelsName = PublicRenderData::getAllRenderingModels(&modelsCount);
+                ImGui::ListBox("##", &selectedModelIndex, modelsName, modelsCount);
+
+                ImGui::SameLine();
+                // Delete model
+                if (ImGui::Button("Delete Model"))
+                {
+                    if (selectedModelIndex >= 0)
+                    {
+                        const char* targetModelName = *(modelsName + selectedModelIndex);
+                        RenderManager::getInstance()->tryTriggerEvent(EVENT_STOP_RENDER_MODEL, targetModelName);
+                    }
+                }
 
                 ImGui::TreePop();
             }
@@ -111,6 +128,7 @@ void UIManager::RenderShaderSelectorPanel()
             const char** shaderNames = ShaderManager::getInstance()->getAllShadersName(&shadersCount);
 
             ImGui::Text("Available shaders:");
+            // show all available shaders
             ImGui::ListBox("##", &selectedShaderIndex, shaderNames, shadersCount);
 
             ImGui::SameLine();

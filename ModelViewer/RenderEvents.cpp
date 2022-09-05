@@ -3,11 +3,9 @@
 #include "Camera.h"
 #include "RenderEvents.h"
 #include "LogicalManager.h"
+#include "PublicRenderData.h"
 #include "ModelManager.h"
 #include "ShaderManager.h"
-
-std::multimap<std::string, Event&> RenderEvents::PublicRenderData::renderingModels;
-std::mutex RenderEvents::PublicRenderData::modelMutex;
 
 void RenderEvents::OnInitModel(Event& event)
 {
@@ -69,8 +67,8 @@ void RenderEvents::OnRenderModel(Event& event)
         true,
         renderData->textureStartIndex);
 
-    auto beg = PublicRenderData::renderingModels.lower_bound(renderData->modelName);
-    auto end = PublicRenderData::renderingModels.upper_bound(renderData->modelName);
+    auto beg = PublicRenderData::renderingModelEvents.lower_bound(renderData->modelName);
+    auto end = PublicRenderData::renderingModelEvents.upper_bound(renderData->modelName);
     // check had storaged the render event
     bool isAppear = false;
     while (beg != end)
@@ -87,30 +85,34 @@ void RenderEvents::OnRenderModel(Event& event)
     if (!isAppear)
     {
         std::lock_guard<std::mutex> gurad(PublicRenderData::modelMutex);
-        PublicRenderData::renderingModels.insert(std::pair<std::string, Event&>(renderData->modelName, event));
+        PublicRenderData::renderingModelEvents.insert(std::pair<std::string, Event&>(renderData->modelName, event));
+
+        PublicRenderData::renderingModelNames.push_back(renderData->modelName.c_str());
     }
 
 }
 
 void RenderEvents::OnRenderCancel(Event& event)
 {
-    RenderData* renderData = getEventData<RenderData>(event);
-    /*auto beg = PublicRenderData::renderingModels.lower_bound(renderData->modelName);
-    auto end = PublicRenderData::renderingModels.upper_bound(renderData->modelName);
-    // check had storaged the render event
-    bool isAppear = false;
-    while (beg != end)
+    const char* modelName = getEventData<const char>(event);
+
+    auto modelIter = PublicRenderData::renderingModelEvents.find(modelName);
+    if (modelIter != PublicRenderData::renderingModelEvents.end())
     {
-        if (&(beg->second) == &event ||
-            ((event.getEventData() != nullptr) && event.getEventData() == beg->second.getEventData()))
+        modelIter->second.setIsGoging(false);
+        PublicRenderData::renderingModelEvents.erase(modelIter);
+
+        for(auto var = PublicRenderData::renderingModelNames.begin(); var != PublicRenderData::renderingModelNames.end(); var++)
         {
-            std::lock_guard<std::mutex> gurad(PublicRenderData::modelMutex);
-
-            return;
+            if (strcmp((*var), modelName) == 0)
+            {
+                PublicRenderData::renderingModelNames.erase(var);
+                break;
+            }
         }
-        ++beg;
-    }*/
-
-
-
+    }
+    else
+    {
+        LogUtil::printError("Unexist model!");
+    }
 }

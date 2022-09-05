@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="AppFrame.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="PublicRenderData.cpp" />
     <ClCompile Include="Utils\InteractionUtil.cpp" />
     <ClCompile Include="FrameInfo.cpp" />
     <ClCompile Include="Libs\imgui\imgui.cpp" />
@@ -40,6 +41,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventDefine.h" />
+    <ClInclude Include="PublicRenderData.h" />
     <ClInclude Include="Utils\InteractionUtil.h" />
     <ClInclude Include="Libs\imgui\imconfig.h" />
     <ClInclude Include="Libs\imgui\imgui.h" />
