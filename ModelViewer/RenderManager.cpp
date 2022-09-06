@@ -110,3 +110,8 @@ void RenderManager::tryTriggerEvent(const std::string & eventName, const void * 
 {
     pendingTriggerList.push(std::make_shared<Event>(eventName, eventData, ongoing));
 }
+
+void RenderManager::tryTriggerEvent(const std::string & eventName, std::shared_ptr<void> eventData, bool isOngoing)
+{
+    pendingTriggerList.push(std::make_shared<Event>(eventName, eventData, isOngoing));
+}

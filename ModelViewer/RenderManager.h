@@ -30,6 +30,7 @@ public:
     void initNewTrigger(Event event, EventTrigger trigger);
     void tryTriggerEvent(std::shared_ptr<Event> event);
     void tryTriggerEvent(const std::string& eventName, const void* const eventData = nullptr, bool isOngoing = false);
+    void tryTriggerEvent(const std::string& eventName, std::shared_ptr<void> eventData, bool isOngoing = false);
 };
 
 #endif

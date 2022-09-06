@@ -62,17 +62,17 @@ void UIManager::RenderLoaderPanel()
 
 
                     // send mvp matrix
-                    static UniformData mvpMatrix;
+                    UniformData mvpMatrix;
                     mvpMatrix.attrName = "model";
                     mvpMatrix.value.matrix5 = matrix;
                     mvpMatrix.valueIndex = 5;
 
-                    RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_SEND_UNIFORM_DATA, &mvpMatrix));
+                    RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_UNIFORM_DATA, std::make_shared<UniformData>(mvpMatrix));
                     RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_UNIFORM_CAMERA_DATA, nullptr, true);
 
-                    static RenderData data;
+                    RenderData data;
                     data.modelName = filePath;
-                    RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_RENDER_MODEL, &data, true));
+                    RenderManager::getInstance()->tryTriggerEvent(EVENT_RENDER_MODEL, std::make_shared<RenderData>(data), true);
                 }
 
                 ImGui::SameLine();

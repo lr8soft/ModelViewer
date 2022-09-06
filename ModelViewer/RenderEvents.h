@@ -36,9 +36,6 @@ namespace RenderEvents {
     // EVENT_SEND_UNIFORM_CAMERA_DATA, eventData == shader path (const char*)
     // Send matrix "view" "projection" to target shader
     void OnSendCameraUniformData(Event& event);
-
-    const char** getAllRenderingModels(int* modelCounts);
-
 }
 
 
