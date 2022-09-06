@@ -88,7 +88,7 @@ void RenderManager::OnEventBusUpdate()
         // clean Event object
         pendingTriggerList.pop();
         // add event to last
-        if (currentEvent->isOngoingEvent())
+        if (!currentEvent->isCancel() && currentEvent->isOngoingEvent())
         {
             pendingTriggerList.push(currentEvent);
         }
@@ -109,4 +109,9 @@ void RenderManager::tryTriggerEvent(std::shared_ptr<Event> event)
 void RenderManager::tryTriggerEvent(const std::string & eventName, const void * const eventData, bool ongoing)
 {
     pendingTriggerList.push(std::make_shared<Event>(eventName, eventData, ongoing));
+}
+
+void RenderManager::tryTriggerEvent(const std::string & eventName, std::shared_ptr<void> eventData, bool isOngoing)
+{
+    pendingTriggerList.push(std::make_shared<Event>(eventName, eventData, isOngoing));
 }
