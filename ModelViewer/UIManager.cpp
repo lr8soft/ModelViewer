@@ -36,6 +36,10 @@ void UIManager::RenderLoaderPanel()
 
     static int selectedModelIndex = -1;
 
+    static float modelSize[3] = { 0.05f, 0.05f, 0.05f };
+    static float modelPosition[3] = { 0.0f };
+    static float modelRotation[3] = { 0.0f };
+
     int bigBtnWidth = 100, bigBtnHeight = 30;
     if (isVisable)
     {
@@ -50,6 +54,16 @@ void UIManager::RenderLoaderPanel()
                 }
                 ImGui::SameLine();
                 ImGui::InputText("Path", filePath, 255);
+
+                ImGui::Text("Model Size:");
+                ImGui::InputFloat3("Scale", modelSize);
+
+                ImGui::Text("Model Position:");
+                ImGui::InputFloat3("Position", modelPosition);
+
+                ImGui::Text("Model Rotation:");
+                ImGui::InputFloat3("Rotation", modelRotation);
+
                 // load model and show
                 if (ImGui::Button("Confirm", ImVec2(bigBtnWidth, bigBtnHeight)))
                 {
@@ -58,8 +72,12 @@ void UIManager::RenderLoaderPanel()
                     Camera* camera = LogicalManager::getInstance()->getMainCamera();
 
                     glm::mat4 matrix;
-                    matrix = glm::translate(matrix, glm::vec3(0.0));
+                    matrix = glm::translate(matrix, glm::vec3(modelPosition[0], modelPosition[1], modelPosition[2]));
+                    matrix = glm::scale(matrix, glm::vec3(modelSize[0], modelSize[1], modelSize[2]));
 
+                    matrix = glm::rotate(matrix, glm::radians(modelRotation[0]), glm::vec3(1, 0, 0));
+                    matrix = glm::rotate(matrix, glm::radians(modelRotation[1]), glm::vec3(0, 1, 0));
+                    matrix = glm::rotate(matrix, glm::radians(modelRotation[2]), glm::vec3(0, 0, 1));
 
                     // send mvp matrix
                     UniformData mvpMatrix;
@@ -67,7 +85,7 @@ void UIManager::RenderLoaderPanel()
                     mvpMatrix.value.matrix5 = matrix;
                     mvpMatrix.valueIndex = 5;
 
-                    RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_UNIFORM_DATA, std::make_shared<UniformData>(mvpMatrix));
+                    RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_UNIFORM_DATA, std::make_shared<UniformData>(mvpMatrix), true);
                     RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_UNIFORM_CAMERA_DATA, nullptr, true);
 
                     RenderData data;

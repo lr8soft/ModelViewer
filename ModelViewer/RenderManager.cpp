@@ -38,11 +38,14 @@ void RenderManager::OnEventInit()
     initNewTrigger(Event(EVENT_SEND_UNIFORM_CAMERA_DATA), RenderEvents::OnSendCameraUniformData);
 
     // Regist shaders
+    static ShaderData defaultShaderNoTex{ "defaultNoTexture", "Assets/default.vert", "Assets/default_no_texture.frag" };
     static ShaderData defaultShader { "default", "Assets/default.vert", "Assets/default.frag" };
-    static ShaderData defaultShaderNoTex { "defaultNoTexture", "Assets/default.vert", "Assets/default_no_texture.frag" };
 
-    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &defaultShader));
     tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &defaultShaderNoTex));
+    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &defaultShader));
+
+
+    glEnable(GL_DEPTH_TEST);
 }
 
 void RenderManager::OnRender()
@@ -50,7 +53,7 @@ void RenderManager::OnRender()
     GLFWwindow* screen = AppFrame::getInstance()->getScreen();
 
     glClearColor(0, 0, 0, 0);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glfwPollEvents();
 
