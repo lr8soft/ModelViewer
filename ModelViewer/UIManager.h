@@ -7,7 +7,9 @@ class UIManager {
 private:
     static void RenderLoaderPanel();
     static void RenderShaderSelectorPanel();
-    static void RenderLightPanel();
+    static void RenderPointLightPanel();
+
+    static void RenderDirLightPanel();
 
 public:
     static void OnInit(GLFWwindow* pScreen);
