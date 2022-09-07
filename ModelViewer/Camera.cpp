@@ -89,7 +89,7 @@ glm::mat4 Camera::getViewMatrix()
 
 glm::mat4 Camera::getProjectionMatrix()
 {
-	return glm::perspective(glm::radians(Zoom), (float)FrameInfo::ScreenWidth / (float)FrameInfo::ScreenHeight, 0.1f, 100.0f);
+	return glm::perspective(glm::radians(Zoom), (float)FrameInfo::ScreenWidth / (float)FrameInfo::ScreenHeight, 0.001f, 2000.0f);
 }
 
 
