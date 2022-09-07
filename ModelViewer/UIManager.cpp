@@ -11,6 +11,7 @@
 #include "RenderManager.h"
 #include "PublicRenderData.h"
 #include "LogicalManager.h"
+#include "LightManager.h"
 #include "ShaderManager.h"
 
 #include "Utils/InteractionUtil.h"
@@ -233,12 +234,67 @@ void UIManager::RenderShaderSelectorPanel()
 
 void UIManager::RenderLightPanel()
 {
-
     static bool isVisable = true;
+    static int currentPointLightIndex = -1;
+    static int currentDirLightIndex = -1;
+    static int currentSpotLightIndex = -1;
+
+    static char pointLightName[20] = { 0 };
+
     if (isVisable)
     {
         ImGui::Begin("Light Manager", &isVisable);
         {
+            int pointLightCount = 0;
+            const char** pointLightNames = LightManager::getInstance()->getAllPointLightName(&pointLightCount);
+            ImGui::Text("Point Light:");
+            ImGui::ListBox("##PointLightList", &currentPointLightIndex, pointLightNames, pointLightCount);
+            ImGui::SameLine();
+            if (ImGui::Button("Delete"))
+            {
+
+            }
+
+            if (ImGui::TreeNode("Add Point Light"))
+            {
+                static float position[3] = { 1.0f, 1.0f, 1.0f };
+                static float ambient[3] = { 0.05f, 0.05f, 0.05f };
+                static float diffuse[3] = { 0.8f, 0.8f, 0.8f };
+                static float specular[3] = { 1.0f, 1.0f, 1.0f };
+                static float constant = 0.01f;
+                static float linear = 0.03f;
+                static float quadratic = 0.08f;
+
+                ImGui::InputFloat3("Position", position);
+                ImGui::InputFloat3("Ambient", ambient);
+                ImGui::InputFloat3("Diffuse", diffuse);
+                ImGui::InputFloat3("Specular", specular);
+
+                ImGui::InputFloat("Constant", &constant);
+                ImGui::InputFloat("Linear", &linear);
+                ImGui::InputFloat("Quadratic", &quadratic);
+
+
+                if (ImGui::Button("Add"))
+                {
+                    PointLightData data;
+                    data.position = glm::vec3(position[0], position[1], position[2]);
+                    data.ambient = glm::vec3(ambient[0], ambient[1], ambient[2]);
+                    data.diffuse = glm::vec3(diffuse[0], diffuse[1], diffuse[2]);
+                    data.specular = glm::vec3(specular[0], specular[1], specular[2]);
+
+                    data.constant = constant;
+                    data.linear = linear;
+                    data.quadratic = quadratic;
+
+                    LightManager::getInstance()->addPointLight(pointLightName, data);
+                    RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_LIGHT_DATA, nullptr, true);
+                }
+                ImGui::SameLine();
+                ImGui::InputText("Light Id", pointLightName, IM_ARRAYSIZE(pointLightName));
+                ImGui::TreePop();
+            }
+
         }
         ImGui::End();
     }

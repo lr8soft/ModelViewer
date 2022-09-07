@@ -54,6 +54,10 @@ void RenderEvents::OnSendCameraUniformData(Event & event)
     glm::mat4 viewMat = camera->getViewMatrix();
     glm::mat4 projectionMat = camera->getProjectionMatrix();
 
+    glm::vec3 viewPos = camera->getPostion();
+
+    glUniform3fv(glGetUniformLocation(shaderId, "viewPos"), 1, glm::value_ptr(viewPos));
+
     glUniformMatrix4fv(glGetUniformLocation(shaderId, "view"), 1, false, glm::value_ptr(viewMat));
     glUniformMatrix4fv(glGetUniformLocation(shaderId, "projection"), 1, false, glm::value_ptr(projectionMat));
 }
