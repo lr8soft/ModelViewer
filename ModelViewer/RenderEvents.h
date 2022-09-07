@@ -36,6 +36,8 @@ namespace RenderEvents {
     // EVENT_SEND_UNIFORM_CAMERA_DATA, eventData == shader path (const char*)
     // Send matrix "view" "projection" to target shader
     void OnSendCameraUniformData(Event& event);
+    // EVENT_SEND_LIGHT_DATA, eventData == NULL
+    void OnSendLightData(Event& event);
 }
 
 

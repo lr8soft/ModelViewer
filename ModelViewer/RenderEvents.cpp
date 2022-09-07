@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "RenderEvents.h"
 #include "LogicalManager.h"
+#include "LightManager.h"
 #include "PublicRenderData.h"
 #include "ModelManager.h"
 #include "ShaderManager.h"
@@ -55,6 +56,12 @@ void RenderEvents::OnSendCameraUniformData(Event & event)
 
     glUniformMatrix4fv(glGetUniformLocation(shaderId, "view"), 1, false, glm::value_ptr(viewMat));
     glUniformMatrix4fv(glGetUniformLocation(shaderId, "projection"), 1, false, glm::value_ptr(projectionMat));
+}
+
+void RenderEvents::OnSendLightData(Event & event)
+{
+    int shaderId = ShaderManager::getInstance()->getCurrentShaderId();
+    LightManager::getInstance()->sendLightInfo(shaderId);
 }
 
 void RenderEvents::OnRenderModel(Event& event)

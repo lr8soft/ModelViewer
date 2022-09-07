@@ -38,11 +38,15 @@ void RenderManager::OnEventInit()
     initNewTrigger(Event(EVENT_SEND_UNIFORM_CAMERA_DATA), RenderEvents::OnSendCameraUniformData);
 
     // Regist shaders
-    static ShaderData defaultShaderNoTex{ "defaultNoTexture", "Assets/default.vert", "Assets/default_no_texture.frag" };
-    static ShaderData defaultShader { "default", "Assets/default.vert", "Assets/default.frag" };
+    static ShaderData shaderNoTexAndLight{ "No_Tex_And_Light", "Assets/no_light.vert", "Assets/no_texture_and_light.frag" };
+    static ShaderData shaderNoTex { "No_Light", "Assets/no_light.vert", "Assets/no_light.frag" };
+    static ShaderData shaderDepth { "Depth", "Assets/depth.vert", "Assets/depth.frag"};
+    static ShaderData shaderDefault { "Default", "Assets/default.vert", "Assets/default.frag"};
 
-    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &defaultShaderNoTex));
-    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &defaultShader));
+    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &shaderDefault));
+    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &shaderDepth));
+    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &shaderNoTexAndLight));
+    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &shaderNoTex));
 
 
     glEnable(GL_DEPTH_TEST);

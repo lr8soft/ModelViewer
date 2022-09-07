@@ -231,6 +231,19 @@ void UIManager::RenderShaderSelectorPanel()
     }
 }
 
+void UIManager::RenderLightPanel()
+{
+
+    static bool isVisable = true;
+    if (isVisable)
+    {
+        ImGui::Begin("Light Manager", &isVisable);
+        {
+        }
+        ImGui::End();
+    }
+}
+
 void UIManager::OnRenderUI()
 {
     ImGui_ImplOpenGL3_NewFrame();
@@ -239,6 +252,7 @@ void UIManager::OnRenderUI()
 
     RenderLoaderPanel();
     RenderShaderSelectorPanel();
+    RenderLightPanel();
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
