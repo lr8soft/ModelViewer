@@ -11,6 +11,7 @@
 #include "RenderManager.h"
 #include "PublicRenderData.h"
 #include "LogicalManager.h"
+#include "LightManager.h"
 #include "ShaderManager.h"
 
 #include "Utils/InteractionUtil.h"
@@ -231,6 +232,200 @@ void UIManager::RenderShaderSelectorPanel()
     }
 }
 
+void UIManager::RenderPointLightPanel()
+{
+    static bool isVisable = true;
+    static int currentPointLightIndex = -1;
+
+
+    static char pointLightName[20] = { 0 };
+
+    if (isVisable)
+    {
+        ImGui::Begin("Point Light Manager", &isVisable);
+        {
+            int pointLightCount = 0;
+            const char** pointLightNames = LightManager::getInstance()->getAllPointLightName(&pointLightCount);
+            ImGui::Text("Point Light:");
+            ImGui::ListBox("##PointLightList", &currentPointLightIndex, pointLightNames, pointLightCount);
+            ImGui::SameLine();
+            if (ImGui::Button("Delete"))
+            {
+
+            }
+
+            ImGui::Text("Add Point Light");
+            {
+                static float position[3] = { 1.0f, 1.0f, 1.0f };
+                static float ambient[3] = { 0.05f, 0.05f, 0.05f };
+                static float diffuse[3] = { 0.8f, 0.8f, 0.8f };
+                static float specular[3] = { 1.0f, 1.0f, 1.0f };
+                static float constant = 0.01f;
+                static float linear = 0.03f;
+                static float quadratic = 0.08f;
+
+                ImGui::InputFloat3("Position", position);
+                ImGui::InputFloat3("Ambient", ambient);
+                ImGui::InputFloat3("Diffuse", diffuse);
+                ImGui::InputFloat3("Specular", specular);
+
+                ImGui::InputFloat("Constant", &constant);
+                ImGui::InputFloat("Linear", &linear);
+                ImGui::InputFloat("Quadratic", &quadratic);
+
+                ImGui::InputText("Light Id", pointLightName, IM_ARRAYSIZE(pointLightName));
+
+                if (ImGui::Button("Add New Point Light"))
+                {
+                    PointLightData data;
+                    data.position = glm::vec3(position[0], position[1], position[2]);
+                    data.ambient = glm::vec3(ambient[0], ambient[1], ambient[2]);
+                    data.diffuse = glm::vec3(diffuse[0], diffuse[1], diffuse[2]);
+                    data.specular = glm::vec3(specular[0], specular[1], specular[2]);
+
+                    data.constant = constant;
+                    data.linear = linear;
+                    data.quadratic = quadratic;
+
+                    LightManager::getInstance()->addPointLight(pointLightName, data);
+                    RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_LIGHT_DATA, nullptr);
+                }
+            }
+
+        }
+        ImGui::End();
+    }
+}
+
+void UIManager::RenderDirLightPanel()
+{
+    static bool isVisable = true;
+    static int currentDirLightIndex = -1;
+
+    static char dirLightName[20];
+
+    if (isVisable)
+    {
+        ImGui::Begin("Directional Light Manager", &isVisable);
+        {
+            int dirLightCount = 0;
+            const char** dirLightNames = LightManager::getInstance()->getAllDirectionalLightName(&dirLightCount);
+            ImGui::Text("Directional Light:");
+            ImGui::ListBox("##DirLightList", &currentDirLightIndex, dirLightNames, dirLightCount);
+            ImGui::SameLine();
+            if (ImGui::Button("Delete"))
+            {
+
+            }
+
+            ImGui::Text("Add Directional Light");
+            {
+                static float direction[3] = { -1.0f, -1.0f, -1.0f };
+                static float ambient[3] = { 0.05f, 0.05f, 0.05f };
+                static float diffuse[3] = { 0.8f, 0.8f, 0.8f };
+                static float specular[3] = { 1.0f, 1.0f, 1.0f };
+
+                ImGui::InputFloat3("Direction", direction);
+                ImGui::InputFloat3("Ambient", ambient);
+                ImGui::InputFloat3("Diffuse", diffuse);
+                ImGui::InputFloat3("Specular", specular);
+
+                ImGui::InputText("Light Id", dirLightName, IM_ARRAYSIZE(dirLightName));
+
+                if (ImGui::Button("Add New Directional Light"))
+                {
+                    DirectionalLightData data;
+                    data.direction = glm::vec3(direction[0], direction[1], direction[2]);
+                    data.ambient = glm::vec3(ambient[0], ambient[1], ambient[2]);
+                    data.diffuse = glm::vec3(diffuse[0], diffuse[1], diffuse[2]);
+                    data.specular = glm::vec3(specular[0], specular[1], specular[2]);
+
+
+                    LightManager::getInstance()->addDirectionalLight(dirLightName, data);
+                    RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_LIGHT_DATA, nullptr);
+                }
+            }
+        
+        }
+        ImGui::End();
+    }
+
+}
+
+void UIManager::RenderSpotLightPanel()
+{
+    static bool isVisable = true;
+    static int currentSpotLightIndex = -1;
+
+    static char spotLightName[20];
+
+    if (isVisable)
+    {
+        ImGui::Begin("Spot Light Manager", &isVisable);
+        {
+            int spotLightCount = 0;
+            const char** spotLightNames = LightManager::getInstance()->getAllSpotLightName(&spotLightCount);
+            ImGui::Text("Spot Light:");
+            ImGui::ListBox("##DirLightList", &currentSpotLightIndex, spotLightNames, spotLightCount);
+            ImGui::SameLine();
+            if (ImGui::Button("Delete"))
+            {
+
+            }
+
+            ImGui::Text("Add Spot Light");
+            {
+                static float position[3] = { 1.0f, 1.0f, 1.0f };
+                static float direction[3] = { -1.0f, -1.0f, -1.0f };
+                static float ambient[3] = { 0.05f, 0.05f, 0.05f };
+                static float diffuse[3] = { 0.8f, 0.8f, 0.8f };
+                static float specular[3] = { 1.0f, 1.0f, 1.0f };
+                static float cutOff = 1.0f;
+                static float outerCutOff = 2.5f;
+                static float constant = 0.01f;
+                static float linear = 0.03f;
+                static float quadratic = 0.08f;
+
+                ImGui::InputFloat3("Position", position);
+                ImGui::InputFloat3("Direction", direction);
+                ImGui::InputFloat3("Ambient", ambient);
+                ImGui::InputFloat3("Diffuse", diffuse);
+                ImGui::InputFloat3("Specular", specular);
+
+                ImGui::InputFloat("CutOff", &cutOff);
+                ImGui::InputFloat("OuterCutOff", &outerCutOff);
+                ImGui::InputFloat("Constant", &constant);
+                ImGui::InputFloat("Linear", &linear);
+                ImGui::InputFloat("Quadratic", &quadratic);
+
+
+                ImGui::InputText("Light Id", spotLightName, IM_ARRAYSIZE(spotLightName));
+
+                if (ImGui::Button("Add New Spot Light"))
+                {
+                    SpotLightData data;
+                    data.position = glm::vec3(position[0], position[1], position[2]);
+                    data.direction = glm::vec3(direction[0], direction[1], direction[2]);
+                    data.ambient = glm::vec3(ambient[0], ambient[1], ambient[2]);
+                    data.diffuse = glm::vec3(diffuse[0], diffuse[1], diffuse[2]);
+                    data.specular = glm::vec3(specular[0], specular[1], specular[2]);
+
+                    data.cutOff = cutOff;
+                    data.outerCutOff = outerCutOff;
+                    data.constant = constant;
+                    data.linear = linear;
+                    data.quadratic = quadratic;
+
+                    LightManager::getInstance()->addSpotLight(spotLightName, data);
+                    RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_LIGHT_DATA, nullptr);
+                }
+            }
+
+        }
+        ImGui::End();
+    }
+}
+
 void UIManager::OnRenderUI()
 {
     ImGui_ImplOpenGL3_NewFrame();
@@ -239,6 +434,10 @@ void UIManager::OnRenderUI()
 
     RenderLoaderPanel();
     RenderShaderSelectorPanel();
+
+    RenderDirLightPanel();
+    RenderSpotLightPanel();
+    RenderPointLightPanel();
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

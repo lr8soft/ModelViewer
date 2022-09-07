@@ -72,6 +72,7 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="PublicRenderData.cpp" />
+    <ClCompile Include="LightManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppFrame.h" />
@@ -145,5 +146,7 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="PublicRenderData.h" />
+    <ClInclude Include="LightManager.h" />
+    <ClInclude Include="LightData.h" />
   </ItemGroup>
 </Project>
