@@ -1,4 +1,5 @@
 #include <iostream>
+#include <imgui.h>
 #include <gl3w/gl3w.h>
 
 #include "AppFrame.h"
@@ -38,6 +39,10 @@ void AppFrame::FramePos(GLFWwindow * screen, int x, int y)
 }
 void AppFrame::FrameCurseUpdate(GLFWwindow * screen, double x, double y)
 {
+    ImGuiIO& io = ImGui::GetIO();
+
+    if (io.WantCaptureMouse) return;
+
     if (glfwGetMouseButton(screen, GLFW_MOUSE_BUTTON_LEFT == GLFW_PRESS))
     {
         LogicalManager::getInstance()->onMouseUpdate(x, y);
@@ -46,6 +51,10 @@ void AppFrame::FrameCurseUpdate(GLFWwindow * screen, double x, double y)
 }
 void AppFrame::FrameScrollUpdate(GLFWwindow * screen, double x, double y)
 {
+    ImGuiIO& io = ImGui::GetIO();
+
+    if (io.WantCaptureMouse) return;
+
     LogicalManager::getInstance()->onScrollUpdate(x, y);
 }
 
