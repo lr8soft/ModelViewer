@@ -11,8 +11,9 @@ GLuint ShaderManager::bindProgram(std::string shaderName)
     GLuint programHandle = getShaderId(shaderName);
     if (programHandle != 0)
     {
-        programHandle = shaderGroup[shaderName];
-        currentShaderName = shaderName;
+        currentShader = &shaderGroup[shaderName];
+        programHandle = currentShader->shaderId;
+
         glUseProgram(programHandle);
     }
     return programHandle;
@@ -31,9 +32,12 @@ GLuint ShaderManager::bindProgram(ShaderData & data)
         shader.linkAllShader();
 
         programHandle = shader.getProgramHandle();
-        shaderGroup.insert(std::make_pair(data.shaderName, programHandle));
+        data.shaderId = programHandle;
+
+        shaderGroup.insert(std::make_pair(data.shaderName, data));
         recordShaders.push_back(data.shaderName.c_str());
-        currentShaderName = data.shaderName;
+
+        currentShader = &data;
         glUseProgram(programHandle);
     }
     return programHandle;
@@ -44,7 +48,7 @@ bool ShaderManager::deleteProgram(ShaderData & data)
     auto targetIter = shaderGroup.find(data.shaderName);
     if (targetIter != shaderGroup.end())
     {
-        glDeleteProgram(targetIter->second);
+        glDeleteProgram(targetIter->second.shaderId);
         shaderGroup.erase(targetIter);
         return true;
     }
@@ -57,22 +61,26 @@ const char ** ShaderManager::getAllShadersName(int * shaderCount)
     return &recordShaders[0];
 }
 
-std::string ShaderManager::getCurrentShaderName()
+ShaderData * ShaderManager::getCurrentShader()
 {
-    return currentShaderName;
+    return currentShader;
 }
 
-GLuint ShaderManager::getCurrentShaderId()
+ShaderData* ShaderManager::getShader(std::string shaderName)
 {
-    return shaderGroup[currentShaderName];
+    if (shaderGroup.find(shaderName) != shaderGroup.end())
+    {
+        return &shaderGroup[shaderName];
+    }
+    return nullptr;
 }
 
 GLuint ShaderManager::getShaderId(std::string shaderName)
 {
-    if (shaderGroup.find(shaderName) != shaderGroup.end())
-    {
-        return shaderGroup[shaderName];
-    }
+    ShaderData* data = getShader(shaderName);
+    if (data != nullptr)
+        return data->shaderId;
+
     return 0;
 }
 

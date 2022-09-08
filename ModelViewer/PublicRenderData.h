@@ -6,6 +6,7 @@
 #include <map>
 #include <mutex>
 
+#include "RenderData.h"
 #include "Events/Event.h"
 
 class PublicRenderData {
@@ -16,6 +17,15 @@ public:
     static std::mutex modelMutex;
 
     static const char ** getAllRenderingModels(int * modelCounts);
+
+    static ShaderData shaderNoTexAndLight;
+    static ShaderData shaderNoTex;
+    static ShaderData shaderDepth;
+    static ShaderData shaderDefault;
+    static ShaderData shaderDefaultNoShadow;
+
+    static unsigned int depthMapFrameBuffer;
+    static unsigned int depthMap;
 };
 
 #endif

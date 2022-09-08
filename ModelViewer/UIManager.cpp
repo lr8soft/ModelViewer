@@ -141,7 +141,7 @@ void UIManager::RenderShaderSelectorPanel()
         {
             ImGui::Text("Current Shader:");
             ImGui::SameLine();
-            ImGui::Text(ShaderManager::getInstance()->getCurrentShaderName().c_str());
+            ImGui::Text(ShaderManager::getInstance()->getCurrentShader()->shaderName.c_str());
 
             int shadersCount = 0;
             const char** shaderNames = ShaderManager::getInstance()->getAllShadersName(&shadersCount);

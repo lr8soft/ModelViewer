@@ -15,7 +15,6 @@ private:
 
     SharedQueue<std::shared_ptr<Event>> pendingTriggerList;
 
-
     RenderManager();
 
     void OnEventInit();

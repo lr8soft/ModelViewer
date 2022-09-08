@@ -4,6 +4,7 @@
 #include "AppFrame.h"
 #include "RenderManager.h"
 #include "RenderEvents.h"
+#include "PublicRenderData.h"
 #include "UIManager.h"
 
 #include "Utils/LogUtil.h"
@@ -25,6 +26,24 @@ void RenderManager::OnInit()
 
     UIManager::OnInit(screen);
     OnEventInit();
+
+    glGenFramebuffers(1, &PublicRenderData::depthMapFrameBuffer);
+    glGenTextures(1, &PublicRenderData::depthMap);
+    glBindTexture(GL_TEXTURE_2D, PublicRenderData::depthMap);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, FrameInfo::ScreenWidth, FrameInfo::ScreenHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+    GLfloat borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+    glBindFramebuffer(GL_FRAMEBUFFER, PublicRenderData::depthMapFrameBuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, PublicRenderData::depthMap, 0);
+    glDrawBuffer(GL_NONE);
+    glReadBuffer(GL_NONE);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void RenderManager::OnEventInit()
@@ -39,17 +58,11 @@ void RenderManager::OnEventInit()
     initNewTrigger(Event(EVENT_SEND_LIGHT_DATA), RenderEvents::OnSendLightData);
 
     // Regist shaders
-    static ShaderData shaderNoTexAndLight{ "No_Tex_And_Light", "Assets/no_light.vert", "Assets/no_texture_and_light.frag" };
-    static ShaderData shaderNoTex { "No_Light", "Assets/no_light.vert", "Assets/no_light.frag" };
-    static ShaderData shaderDepth { "Depth", "Assets/depth.vert", "Assets/depth.frag"};
-    static ShaderData shaderDefault { "Default", "Assets/default.vert", "Assets/default.frag"};
-    static ShaderData shaderDefaultNoShadow{ "DefaultNoShadow", "Assets/no_shadow.vert", "Assets/no_shadow.frag" };
-
-    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &shaderDepth));
-    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &shaderNoTex));
-    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &shaderNoTexAndLight));
-    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &shaderDefault));
-    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &shaderDefaultNoShadow));
+    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &PublicRenderData::shaderDepth));
+    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &PublicRenderData::shaderNoTex));
+    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &PublicRenderData::shaderNoTexAndLight));
+    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &PublicRenderData::shaderDefault));
+    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &PublicRenderData::shaderDefaultNoShadow));
 
     glEnable(GL_DEPTH_TEST);
 }

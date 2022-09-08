@@ -28,6 +28,9 @@ namespace RenderEvents {
     void OnLoadShader(Event& event);
     //  EVENT_RENDER_MODEL, eventData == RenderData
     void OnRenderModel(Event& event);
+    //  EVENT_RENDER_MODEL, eventData == RenderData
+    //  Render model shadow texture and bind to uniform material "shadow"
+    void OnRenderModelShadow(Event& event);
     //  EVENT_STOP_RENDER_MODEL, eventData == RenderData
     void OnRenderCancel(Event& event);
 

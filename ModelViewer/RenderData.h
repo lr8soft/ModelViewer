@@ -22,6 +22,7 @@ struct ShaderData {
     std::string shaderName;
     std::string vertexShader;
     std::string fragShader;
+    unsigned int shaderId = 0;
 };
 
 struct UniformValue {

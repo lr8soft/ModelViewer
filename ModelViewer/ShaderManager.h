@@ -11,10 +11,10 @@ class ShaderManager {
 private:
     static ShaderManager* pInstance;
 
-    std::map<std::string, GLuint> shaderGroup;
+    std::map<std::string, ShaderData> shaderGroup;
     std::vector<const char*> recordShaders;
 
-    std::string currentShaderName;
+    ShaderData* currentShader = nullptr;
 
     ShaderManager();
 public:
@@ -28,8 +28,8 @@ public:
 
     const char** getAllShadersName(int* shaderCount);
 
-    std::string getCurrentShaderName();
-    GLuint getCurrentShaderId();
+    ShaderData* getCurrentShader();
+    ShaderData* getShader(std::string shaderName);
     GLuint getShaderId(std::string shaderName);
 
     static ShaderManager * getInstance();

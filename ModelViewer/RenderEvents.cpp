@@ -25,7 +25,7 @@ void RenderEvents::OnLoadShader(Event & event)
 void RenderEvents::OnSendUniformData(Event & event)
 {
     UniformData* data = getEventData<UniformData>(event);
-    GLuint shaderId = ShaderManager::getInstance()->getCurrentShaderId();
+    GLuint shaderId = ShaderManager::getInstance()->getCurrentShader()->shaderId;
 
     switch (data->valueIndex)
     {
@@ -48,7 +48,7 @@ void RenderEvents::OnSendUniformData(Event & event)
 
 void RenderEvents::OnSendCameraUniformData(Event & event)
 {
-    GLuint shaderId = ShaderManager::getInstance()->getCurrentShaderId();
+    GLuint shaderId = ShaderManager::getInstance()->getCurrentShader()->shaderId;
     Camera* camera = LogicalManager::getInstance()->getMainCamera();
 
     glm::mat4 viewMat = camera->getViewMatrix();
@@ -64,7 +64,7 @@ void RenderEvents::OnSendCameraUniformData(Event & event)
 
 void RenderEvents::OnSendLightData(Event & event)
 {
-    int shaderId = ShaderManager::getInstance()->getCurrentShaderId();
+    int shaderId = ShaderManager::getInstance()->getCurrentShader()->shaderId;
     LightManager::getInstance()->sendLightInfo(shaderId);
 }
 
@@ -76,7 +76,7 @@ void RenderEvents::OnRenderModel(Event& event)
 
     ModelManager::getInstance()->RenderModel(
         renderData->modelName,
-        ShaderManager::getInstance()->getCurrentShaderId(),
+        ShaderManager::getInstance()->getCurrentShader()->shaderId,
         true,
         renderData->textureStartIndex);
 
@@ -103,6 +103,31 @@ void RenderEvents::OnRenderModel(Event& event)
         PublicRenderData::renderingModelNames.push_back(renderData->modelName.c_str());
     }
 
+}
+
+void RenderEvents::OnRenderModelShadow(Event & event)
+{
+    if (event.isCancel()) return;
+
+    RenderData* renderData = getEventData<RenderData>(event);
+
+    ShaderData* lastShader = ShaderManager::getInstance()->getCurrentShader();
+    GLuint depthId = ShaderManager::getInstance()->bindProgram(PublicRenderData::shaderDepth);
+
+    GLfloat near_panel = 1.0f, far_panel = 100.0f;
+
+    glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_panel, far_panel);
+    glCullFace(GL_FRONT);	//cull front face when render depth texture
+    glBindFramebuffer(GL_FRAMEBUFFER, PublicRenderData::depthMapFrameBuffer);
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    ModelManager::getInstance()->RenderModel(renderData->modelName, depthId, false, 0);
+
+
+    // recover environment
+    ShaderManager::getInstance()->bindProgram(*lastShader);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glCullFace(GL_BACK);
 }
 
 void RenderEvents::OnRenderCancel(Event& event)
