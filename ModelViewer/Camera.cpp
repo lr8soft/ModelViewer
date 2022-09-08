@@ -1,7 +1,9 @@
+#include <imgui.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
 
 #include "AppFrame.h"
 #include "Camera.h"
@@ -9,6 +11,9 @@
 #include "Utils/LogUtil.h"
 void Camera::processInput(float deltaTime)
 {
+    ImGuiIO& io = ImGui::GetIO();
+    if (io.WantCaptureMouse) return;
+
 	GLFWwindow* window = AppFrame::getInstance()->getScreen();
 	float velocity = MovementSpeed * deltaTime;
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
