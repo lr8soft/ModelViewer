@@ -128,25 +128,39 @@ void RenderEvents::OnRenderModelShadow(Event & event)
     if (event.isCancel()) return;
 
     RenderData* renderData = getEventData<RenderData>(event);
+    Transform& transform = renderData->transform;
+
+    glm::mat4 modelMatrix;
+    modelMatrix = glm::translate(modelMatrix, transform.position);
+    modelMatrix = glm::scale(modelMatrix, transform.scale);
+
+    modelMatrix = glm::rotate(modelMatrix, glm::radians(transform.rotation.x), glm::vec3(1, 0, 0));
+    modelMatrix = glm::rotate(modelMatrix, glm::radians(transform.rotation.y), glm::vec3(0, 1, 0));
+    modelMatrix = glm::rotate(modelMatrix, glm::radians(transform.rotation.z), glm::vec3(0, 0, 1));
 
     ShaderData* lastShader = ShaderManager::getInstance()->getCurrentShader();
     GLuint depthId = ShaderManager::getInstance()->bindProgram(PublicRenderData::shaderDepth);
 
-    GLfloat near_panel = 1.0f, far_panel = 100.0f;
+    GLfloat near_panel = 0.1f, far_panel = 1000.0f;
 
-    glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_panel, far_panel);
-    glCullFace(GL_FRONT);	//cull front face when render depth texture
+    glm::mat4 lightProjection = glm::ortho(-100.0f, 100.0f, -100.0f, 100.0f, near_panel, far_panel);
+    glCullFace(GL_FRONT);
     glBindFramebuffer(GL_FRAMEBUFFER, PublicRenderData::depthMapFrameBuffer);
     glClear(GL_DEPTH_BUFFER_BIT);
 
-    //ModelManager::getInstance()->RenderModel(renderData->modelName, depthId, false, 0);
     auto dirLights = LightManager::getInstance()->getDirectionalLights();
     for (auto dirLightData : dirLights) 
     {
         DirectionalLightData dirLight = dirLightData.second;
+        glm::vec3 Front = transform.position + dirLight.direction * 2.5f;
 
+        glm::mat4 lightView = glm::lookAt(transform.position - dirLight.direction * 2.5f, Front, glm::vec3(0.0, 1.0, 0.0));
+        glm::mat4 lightSpaceMatrix = lightProjection * lightView;
+
+        glUniformMatrix4fv(glGetUniformLocation(depthId, "model"), 1, false, glm::value_ptr(modelMatrix));
+        glUniformMatrix4fv(glGetUniformLocation(depthId, "lightSpaceMatrix"), 1, false, glm::value_ptr(lightSpaceMatrix));
+        ModelManager::getInstance()->RenderModel(renderData->modelName, depthId, false, 0);
     }
-
 
     // recover environment
     ShaderManager::getInstance()->bindProgram(*lastShader);

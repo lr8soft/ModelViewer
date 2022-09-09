@@ -70,24 +70,18 @@ void UIManager::RenderLoaderPanel()
                 {
                     RenderManager::getInstance()->tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_NEW_MODEL, filePath));
 
-                    Camera* camera = LogicalManager::getInstance()->getMainCamera();
-
-                    // send mvp matrix
-                    /*UniformData mvpMatrix;
-                    mvpMatrix.attrName = "model";
-                    mvpMatrix.value.matrix5 = matrix;
-                    mvpMatrix.valueIndex = 5;*/
                     Transform transform;
                     transform.position = glm::vec3(modelPosition[0], modelPosition[1], modelPosition[2]);
                     transform.scale = glm::vec3(modelSize[0], modelSize[1], modelSize[2]);
                     transform.rotation = glm::vec3(modelRotation[0], modelRotation[1], modelRotation[2]);
 
-                    //RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_UNIFORM_DATA, std::make_shared<UniformData>(mvpMatrix), true);
                     RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_UNIFORM_CAMERA_DATA, nullptr, true);
 
                     RenderData data;
                     data.modelName = filePath;
                     data.transform = transform;
+                    data.renderShadow = true;
+                    RenderManager::getInstance()->tryTriggerEvent(EVENT_RENDER_MODEL_SHADOW, std::make_shared<RenderData>(data), true);
                     RenderManager::getInstance()->tryTriggerEvent(EVENT_RENDER_MODEL, std::make_shared<RenderData>(data), true);
                 }
 
