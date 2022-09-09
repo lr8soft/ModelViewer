@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include "LightData.h"
+#include "RenderData.h"
 
 class LightManager {
 private:
@@ -29,6 +30,7 @@ public:
     void addDirectionalLight(std::string lightId, DirectionalLightData data);
     void addSpotLight(std::string lightId, SpotLightData data);
     void sendLightInfo(unsigned int shaderId);
+    void sendLightMatrix(unsigned int shaderId, Transform& transform);
 
     std::multimap<std::string, DirectionalLightData>& getDirectionalLights();
 

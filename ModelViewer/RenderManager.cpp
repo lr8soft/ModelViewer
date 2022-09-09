@@ -84,8 +84,11 @@ void RenderManager::OnEventInit()
     tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &PublicRenderData::shaderDepth));
     tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &PublicRenderData::shaderNoTex));
     tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &PublicRenderData::shaderNoTexAndLight));
-    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &PublicRenderData::shaderDefault));
     tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &PublicRenderData::shaderDefaultNoShadow));
+    tryTriggerEvent(std::make_shared<Event>(EVENT_LOAD_SHADER, &PublicRenderData::shaderDefault));
+
+    // Trigger init event
+    RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_LIGHT_DATA);
 
     glEnable(GL_DEPTH_TEST);
 }

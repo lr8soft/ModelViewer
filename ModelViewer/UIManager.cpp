@@ -41,7 +41,7 @@ void UIManager::RenderLoaderPanel()
     static float modelPosition[3] = { 0.0f };
     static float modelRotation[3] = { 0.0f };
 
-    static bool renderShadow = false;
+    static bool renderShadow = true;
 
     int bigBtnWidth = 100, bigBtnHeight = 30;
     if (isVisable)
@@ -283,7 +283,6 @@ void UIManager::RenderPointLightPanel()
                     data.quadratic = quadratic;
 
                     LightManager::getInstance()->addPointLight(pointLightName, data);
-                    RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_LIGHT_DATA, nullptr);
                 }
             }
 

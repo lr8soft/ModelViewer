@@ -4,6 +4,7 @@
 #include "RenderEvents.h"
 #include "LogicalManager.h"
 #include "LightManager.h"
+#include "RenderManager.h"
 #include "PublicRenderData.h"
 #include "ModelManager.h"
 #include "ShaderManager.h"
@@ -20,6 +21,8 @@ void RenderEvents::OnLoadShader(Event & event)
 {
     ShaderData* data = getEventData<ShaderData>(event);
     ShaderManager::getInstance()->bindProgram(*data);
+
+    RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_LIGHT_DATA);
 }
 
 void RenderEvents::OnSendUniformData(Event & event)
@@ -87,6 +90,8 @@ void RenderEvents::OnRenderModel(Event& event)
 
     if (renderData->renderShadow)
     {
+        LightManager::getInstance()->sendLightMatrix(shaderId, renderData->transform);
+
         glActiveTexture(GL_TEXTURE0);
         glUniform1i(glGetUniformLocation(shaderId, "material.shadow_map"), 0);
         glBindTexture(GL_TEXTURE_2D, PublicRenderData::depthMap);
@@ -152,16 +157,15 @@ void RenderEvents::OnRenderModelShadow(Event & event)
     for (auto dirLightData : dirLights) 
     {
         DirectionalLightData dirLight = dirLightData.second;
-        glm::vec3 Front = transform.position + dirLight.direction * 2.5f;
+        glm::vec3 Front = transform.position + dirLight.direction;
 
-        glm::mat4 lightView = glm::lookAt(transform.position - dirLight.direction * 2.5f, Front, glm::vec3(0.0, 1.0, 0.0));
+        glm::mat4 lightView = glm::lookAt(transform.position - dirLight.direction, Front, glm::vec3(0.0, 1.0, 0.0));
         glm::mat4 lightSpaceMatrix = lightProjection * lightView;
 
         glUniformMatrix4fv(glGetUniformLocation(depthId, "model"), 1, false, glm::value_ptr(modelMatrix));
         glUniformMatrix4fv(glGetUniformLocation(depthId, "lightSpaceMatrix"), 1, false, glm::value_ptr(lightSpaceMatrix));
         ModelManager::getInstance()->RenderModel(renderData->modelName, depthId, false, 0);
     }
-
     // recover environment
     ShaderManager::getInstance()->bindProgram(*lastShader);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);

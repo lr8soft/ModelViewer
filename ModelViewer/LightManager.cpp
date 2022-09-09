@@ -4,6 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "LightManager.h"
+#include "RenderManager.h"
 
 LightManager* LightManager::pInstance = nullptr;
 
@@ -155,6 +156,29 @@ void LightManager::sendLightInfo(unsigned int shaderId)
         glUniform3fv(glGetUniformLocation(shaderId, segmentName), 1, glm::value_ptr(spotLight.specular));
 
         spotLightIndex++;
+    }
+}
+
+void LightManager::sendLightMatrix(unsigned int shaderId, Transform & transform)
+{
+    int dirLightIndex = 0;
+    char segmentName[32];
+
+    GLfloat near_panel = 1.0f, far_panel = 100.0f;
+    glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_panel, far_panel);
+    
+
+    for (auto dirLightData : dirLights)
+    {
+        DirectionalLightData light = dirLightData.second;
+
+        glm::vec3 Front = transform.position + light.direction * 2.5f;
+
+        glm::mat4 lightView = glm::lookAt(transform.position - light.direction * 2.5f, Front, glm::vec3(0.0, 1.0, 0.0));
+        glm::mat4 lightSpaceMatrix = lightProjection * lightView;
+
+        sprintf_s(segmentName, 32, "dirShadowLightSpace[%d]", dirLightIndex++);
+        glUniformMatrix4fv(glGetUniformLocation(shaderId, segmentName), 1, false, glm::value_ptr(lightSpaceMatrix));
     }
 }
 
