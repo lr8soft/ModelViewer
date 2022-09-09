@@ -30,6 +30,8 @@ public:
     void addSpotLight(std::string lightId, SpotLightData data);
     void sendLightInfo(unsigned int shaderId);
 
+    std::map<std::string, DirectionalLightData>& getDirectionalLights();
+
     const char** getAllPointLightName(int* count);
     const char** getAllDirectionalLightName(int* count);
     const char** getAllSpotLightName(int* count);

@@ -28,6 +28,7 @@ void RenderManager::OnInit()
     OnEventInit();
 
     glGenFramebuffers(1, &PublicRenderData::depthMapFrameBuffer);
+    glGenFramebuffers(1, &PublicRenderData::depthCubeMapFrameBuffer);
     glGenTextures(1, &PublicRenderData::depthMap);
     glBindTexture(GL_TEXTURE_2D, PublicRenderData::depthMap);
 
@@ -41,6 +42,27 @@ void RenderManager::OnInit()
     glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
     glBindFramebuffer(GL_FRAMEBUFFER, PublicRenderData::depthMapFrameBuffer);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, PublicRenderData::depthMap, 0);
+    glDrawBuffer(GL_NONE);
+    glReadBuffer(GL_NONE);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    glGenTextures(1, &PublicRenderData::depthCubeMap);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, PublicRenderData::depthCubeMap);
+    for (GLuint i = 0; i < 6; ++i)
+    {
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT,
+            FrameInfo::ScreenWidth, FrameInfo::ScreenHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+
+    }
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    //attach depth cube texture
+    glBindFramebuffer(GL_FRAMEBUFFER, PublicRenderData::depthCubeMapFrameBuffer);
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, PublicRenderData::depthCubeMap, 0);
     glDrawBuffer(GL_NONE);
     glReadBuffer(GL_NONE);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);

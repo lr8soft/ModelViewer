@@ -158,6 +158,11 @@ void LightManager::sendLightInfo(unsigned int shaderId)
     }
 }
 
+std::map<std::string, DirectionalLightData>& LightManager::getDirectionalLights()
+{
+    return dirLights;
+}
+
 const char ** LightManager::getAllPointLightName(int * count)
 {
     int lightCount = pointLightNames.size();

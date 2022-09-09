@@ -24,8 +24,8 @@ public:
     static ShaderData shaderDefault;
     static ShaderData shaderDefaultNoShadow;
 
-    static unsigned int depthMapFrameBuffer;
-    static unsigned int depthMap;
+    static unsigned int depthMapFrameBuffer, depthCubeMapFrameBuffer;
+    static unsigned int depthMap, depthCubeMap;
 };
 
 #endif

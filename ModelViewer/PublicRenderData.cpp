@@ -11,8 +11,8 @@ ShaderData PublicRenderData::shaderDepth{ "Depth", "Assets/depth.vert", "Assets/
 ShaderData PublicRenderData::shaderDefault{ "Default", "Assets/default.vert", "Assets/default.frag" };
 ShaderData PublicRenderData::shaderDefaultNoShadow{ "DefaultNoShadow", "Assets/no_shadow.vert", "Assets/no_shadow.frag" };
 
-unsigned int PublicRenderData::depthMapFrameBuffer = 0;
-unsigned int PublicRenderData::depthMap = 0;
+unsigned int PublicRenderData::depthMapFrameBuffer = 0, PublicRenderData::depthCubeMapFrameBuffer = 0;
+unsigned int PublicRenderData::depthMap = 0, PublicRenderData::depthCubeMap = 0;
 
 const char ** PublicRenderData::getAllRenderingModels(int * modelCounts)
 {

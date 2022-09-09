@@ -73,12 +73,30 @@ void RenderEvents::OnRenderModel(Event& event)
     if (event.isCancel()) return;
 
     RenderData* renderData = getEventData<RenderData>(event);
+    GLuint shaderId = ShaderManager::getInstance()->getCurrentShader()->shaderId;
+
+    glm::mat4 modelMatrix;
+    modelMatrix = glm::translate(modelMatrix, renderData->transform.position);
+    modelMatrix = glm::scale(modelMatrix, renderData->transform.scale);
+
+    modelMatrix = glm::rotate(modelMatrix, glm::radians(renderData->transform.rotation.x), glm::vec3(1, 0, 0));
+    modelMatrix = glm::rotate(modelMatrix, glm::radians(renderData->transform.rotation.y), glm::vec3(0, 1, 0));
+    modelMatrix = glm::rotate(modelMatrix, glm::radians(renderData->transform.rotation.z), glm::vec3(0, 0, 1));
+
+    glUniformMatrix4fv(glGetUniformLocation(shaderId, "model"), 1, false, glm::value_ptr(modelMatrix));
+
+    if (renderData->renderShadow)
+    {
+        glActiveTexture(GL_TEXTURE0);
+        glUniform1i(glGetUniformLocation(shaderId, "material.shadow_map"), 0);
+        glBindTexture(GL_TEXTURE_2D, PublicRenderData::depthMap);
+    }
 
     ModelManager::getInstance()->RenderModel(
         renderData->modelName,
-        ShaderManager::getInstance()->getCurrentShader()->shaderId,
+        shaderId,
         true,
-        renderData->textureStartIndex);
+        renderData->renderShadow ? 1 : 0);
 
     auto beg = PublicRenderData::renderingModelEvents.lower_bound(renderData->modelName);
     auto end = PublicRenderData::renderingModelEvents.upper_bound(renderData->modelName);
@@ -121,7 +139,13 @@ void RenderEvents::OnRenderModelShadow(Event & event)
     glBindFramebuffer(GL_FRAMEBUFFER, PublicRenderData::depthMapFrameBuffer);
     glClear(GL_DEPTH_BUFFER_BIT);
 
-    ModelManager::getInstance()->RenderModel(renderData->modelName, depthId, false, 0);
+    //ModelManager::getInstance()->RenderModel(renderData->modelName, depthId, false, 0);
+    auto dirLights = LightManager::getInstance()->getDirectionalLights();
+    for (auto dirLightData : dirLights) 
+    {
+        DirectionalLightData dirLight = dirLightData.second;
+
+    }
 
 
     // recover environment

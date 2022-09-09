@@ -72,25 +72,22 @@ void UIManager::RenderLoaderPanel()
 
                     Camera* camera = LogicalManager::getInstance()->getMainCamera();
 
-                    glm::mat4 matrix;
-                    matrix = glm::translate(matrix, glm::vec3(modelPosition[0], modelPosition[1], modelPosition[2]));
-                    matrix = glm::scale(matrix, glm::vec3(modelSize[0], modelSize[1], modelSize[2]));
-
-                    matrix = glm::rotate(matrix, glm::radians(modelRotation[0]), glm::vec3(1, 0, 0));
-                    matrix = glm::rotate(matrix, glm::radians(modelRotation[1]), glm::vec3(0, 1, 0));
-                    matrix = glm::rotate(matrix, glm::radians(modelRotation[2]), glm::vec3(0, 0, 1));
-
                     // send mvp matrix
-                    UniformData mvpMatrix;
+                    /*UniformData mvpMatrix;
                     mvpMatrix.attrName = "model";
                     mvpMatrix.value.matrix5 = matrix;
-                    mvpMatrix.valueIndex = 5;
+                    mvpMatrix.valueIndex = 5;*/
+                    Transform transform;
+                    transform.position = glm::vec3(modelPosition[0], modelPosition[1], modelPosition[2]);
+                    transform.scale = glm::vec3(modelSize[0], modelSize[1], modelSize[2]);
+                    transform.rotation = glm::vec3(modelRotation[0], modelRotation[1], modelRotation[2]);
 
-                    RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_UNIFORM_DATA, std::make_shared<UniformData>(mvpMatrix), true);
+                    //RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_UNIFORM_DATA, std::make_shared<UniformData>(mvpMatrix), true);
                     RenderManager::getInstance()->tryTriggerEvent(EVENT_SEND_UNIFORM_CAMERA_DATA, nullptr, true);
 
                     RenderData data;
                     data.modelName = filePath;
+                    data.transform = transform;
                     RenderManager::getInstance()->tryTriggerEvent(EVENT_RENDER_MODEL, std::make_shared<RenderData>(data), true);
                 }
 
