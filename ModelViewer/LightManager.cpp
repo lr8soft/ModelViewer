@@ -158,7 +158,7 @@ void LightManager::sendLightInfo(unsigned int shaderId)
     }
 }
 
-std::map<std::string, DirectionalLightData>& LightManager::getDirectionalLights()
+std::multimap<std::string, DirectionalLightData>& LightManager::getDirectionalLights()
 {
     return dirLights;
 }

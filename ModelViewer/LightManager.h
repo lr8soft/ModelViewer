@@ -8,13 +8,13 @@
 
 class LightManager {
 private:
-    std::map<std::string, PointLightData> pointLights;
+    std::multimap<std::string, PointLightData> pointLights;
     std::vector<const char*> pointLightNames;
 
-    std::map<std::string, DirectionalLightData> dirLights;
+    std::multimap<std::string, DirectionalLightData> dirLights;
     std::vector<const char*> dirLightNames;
 
-    std::map<std::string, SpotLightData> spotLights;
+    std::multimap<std::string, SpotLightData> spotLights;
     std::vector<const char*> spotLightNames;
 
 
@@ -30,7 +30,7 @@ public:
     void addSpotLight(std::string lightId, SpotLightData data);
     void sendLightInfo(unsigned int shaderId);
 
-    std::map<std::string, DirectionalLightData>& getDirectionalLights();
+    std::multimap<std::string, DirectionalLightData>& getDirectionalLights();
 
     const char** getAllPointLightName(int* count);
     const char** getAllDirectionalLightName(int* count);

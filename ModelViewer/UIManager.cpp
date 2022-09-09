@@ -41,6 +41,8 @@ void UIManager::RenderLoaderPanel()
     static float modelPosition[3] = { 0.0f };
     static float modelRotation[3] = { 0.0f };
 
+    static bool renderShadow = false;
+
     int bigBtnWidth = 100, bigBtnHeight = 30;
     if (isVisable)
     {
@@ -65,6 +67,8 @@ void UIManager::RenderLoaderPanel()
                 ImGui::Text("Model Rotation:");
                 ImGui::InputFloat3("Rotation", modelRotation);
 
+                ImGui::Checkbox("Render Shadow", &renderShadow);
+
                 // load model and show
                 if (ImGui::Button("Confirm", ImVec2(bigBtnWidth, bigBtnHeight)))
                 {
@@ -80,7 +84,7 @@ void UIManager::RenderLoaderPanel()
                     RenderData data;
                     data.modelName = filePath;
                     data.transform = transform;
-                    data.renderShadow = true;
+                    data.renderShadow = renderShadow;
                     RenderManager::getInstance()->tryTriggerEvent(EVENT_RENDER_MODEL_SHADOW, std::make_shared<RenderData>(data), true);
                     RenderManager::getInstance()->tryTriggerEvent(EVENT_RENDER_MODEL, std::make_shared<RenderData>(data), true);
                 }
